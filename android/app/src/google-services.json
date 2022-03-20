@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "788774677601",
+    "project_id": "ctse-food-recipe",
+    "storage_bucket": "ctse-food-recipe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788774677601:android:b4e7225106da607bd40e20",
+        "android_client_info": {
+          "package_name": "com.example.food_recipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788774677601-2sfp848r5j2mgp0ikq5afqg2632hs400.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH2XnGEfEmOhfATuS9tf3bieJ7bd8igT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788774677601-2sfp848r5j2mgp0ikq5afqg2632hs400.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

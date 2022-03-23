@@ -1,0 +1,1 @@
+export 'package:food_recipe/models/meal_item.dart';

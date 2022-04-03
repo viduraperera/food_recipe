@@ -1,0 +1,68 @@
+{
+  "auth": {
+    "your_username": "Your Username",
+    "username": "Username",
+    "your_password": "Your Password",
+    "password": "Password",
+    "great_recipe_collection": "A Great Collection of Recipes",
+    "login" : "Login",
+    "forgot_password": "Forgot Password",
+    "your_email": "Your Email",
+    "email" : "Email",
+    "send": "Send",
+    "back_to_login": "Back to Login",
+    "enter_username": "Please enter your username",
+    "enter_password": "Please enter your password",
+    "enter_email": "Please enter your email"
+  },
+  "select": {
+    "select_fav_cui": "Select your favorite cuisines",
+    "continue": "Continue",
+    "select_fav_food": "Select your favorite food"
+  },
+  "profile": {
+    "my_cook_book": "My Cook Book",
+    "beverages": "Beverages",
+    "food_recipes": "Food recipes",
+    "healthy_food": "Healthy food recipes",
+    "followers": "Followers",
+    "following": "Following",
+    "my_fav_cuisines": "My Favorite Cuisines",
+    "my_fav_food": "My Favorite Food",
+    "fav_recipes": "Favorite Recipes"
+  },
+  "featured": {
+    "popular": "Popular",
+    "new": "New",
+    "new_recipes": "New recipes",
+    "popular_recipes": "Popular recipes"
+  },
+
+  "single_recipe": {
+    "add_to_fav": "Add to favorites",
+    "ingredients" : "Ingredients",
+    "pre_time": "Preparation",
+    "cooking": "Cooking",
+    "description": "Description",
+    "steps": "How to make",
+    "temp": "Temperature",
+    "add": "Add",
+    "prepare_time": "Prepare time",
+    "cooking_time": "Prepare time",
+    "name": "Name",
+    "short_des": "Short description"
+
+  },
+  "search": {
+    "search": "Search"
+  },
+  "setting": {
+    "settings": "Settings",
+    "log_out": "Logout",
+    "language": "Language",
+    "confirm_logout": "Confirm Logout",
+    "confirm_sub_logout": "Are you sure you want to logout?",
+    "yes": "Yes",
+    "cancel": "Cancel"
+  }
+}

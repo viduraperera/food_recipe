@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:food_recipe/index.dart';
 
-class RecipeProvider with ChangeNotifier{
+class MealProvider with ChangeNotifier{
 
   String searchKey = "";
   int mealPage = 0;
@@ -26,6 +26,7 @@ class RecipeProvider with ChangeNotifier{
   );
 
   loadAllMeal() async {
+    foodMealList.clear();
     List<QueryDocumentSnapshot<MealItem>> snapshotList =
     await mealRef.get().then((value) => value.docs);
 

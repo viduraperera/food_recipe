@@ -1,45 +1,75 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:food_recipe/index.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
-void main() => runApp(MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(EasyLocalization(
+      supportedLocales: const [Locale('en', 'UK')],
+      fallbackLocale: const Locale('en', 'UK'),
+      path: 'assets/locales',
+      child: MyApp()));
+}
+
+
+
 
 class MyApp extends StatelessWidget {
 
-  final imageList = [
-      "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2F1.png?alt=media&token=12be9c23-3561-40a4-b5b2-cd29a812bd5b.png",
-      "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2F3.png?alt=media&token=db43eaae-3c23-4c53-8241-78506446954a.png",
-      "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2F2.png?alt=media&token=d1f21619-6b8a-48b4-8629-aa54e144eb34.png",
-];
+  final mySystemTheme = SystemUiOverlayStyle.light.copyWith(
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.light);
+
+  MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: CarouselSlider.builder(
-            options: CarouselOptions(
-                height: 500,
-                enlargeCenterPage: true,
-                enlargeStrategy: CenterPageEnlargeStrategy.height,
-                enableInfiniteScroll: false,
+    return MultiProvider(
+      providers: providers,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Food recipe app',
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: ThemeData(
+          fontFamily: 'Quicksand',
+          scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            iconTheme: IconThemeData(
+              color: Colors.black,
             ),
-            itemCount: imageList.length,
-            itemBuilder: (context, index, realIndex){
-              final singleImage = imageList[index];
-
-              return buildImage(singleImage, index);
-            },
           ),
         ),
+        home: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: mySystemTheme,
+          child: const ResponsiveProvider(
+            child: SplashScreen(),
+          ),
+        ),
+        builder: (context, child) {
+          return MediaQuery(
+            child: child!,
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          );
+        },
       ),
     );
   }
-  Widget buildImage(String singleImage, int index) => Container(
-    margin: EdgeInsets.symmetric(horizontal: 4),
-    color: Colors.grey,
-    child: Image.network(
-      singleImage,
-      fit: BoxFit.cover,
-    ),
-  );
 }
+
+List<SingleChildWidget> providers =[
+  ChangeNotifierProvider<MealProvider>(create: (_) => MealProvider()),
+  ChangeNotifierProvider<AddMealProvider>(create: (_) => AddMealProvider()),
+];

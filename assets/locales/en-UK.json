@@ -1,20 +1,4 @@
 {
-  "auth": {
-    "your_username": "Your Username",
-    "username": "Username",
-    "your_password": "Your Password",
-    "password": "Password",
-    "great_recipe_collection": "A Great Collection of Recipes",
-    "login" : "Login",
-    "forgot_password": "Forgot Password",
-    "your_email": "Your Email",
-    "email" : "Email",
-    "send": "Send",
-    "back_to_login": "Back to Login",
-    "enter_username": "Please enter your username",
-    "enter_password": "Please enter your password",
-    "enter_email": "Please enter your email"
-  },
   "select": {
     "select_fav_cui": "Select your favorite cuisines",
     "continue": "Continue",
@@ -48,7 +32,7 @@
     "temp": "Temperature",
     "add": "Add",
     "prepare_time": "Prepare time",
-    "cooking_time": "Prepare time",
+    "cooking_time": "Cooking time",
     "name": "Name",
     "short_des": "Short description"
 

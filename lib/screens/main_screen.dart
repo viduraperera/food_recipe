@@ -18,25 +18,43 @@ class MainScreen extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child: CarouselSlider.builder(
-            options: CarouselOptions(
-              height: 500,
-              enlargeCenterPage: true,
-              enlargeStrategy: CenterPageEnlargeStrategy.height,
-              enableInfiniteScroll: false,
-            ),
-            itemCount: 3,
-            itemBuilder: (context, index, realIndex) {
-              final singleImage = imageList[index];
-              Widget widget = MealList();
-              if (index == 1) {
-                widget = Container();
-              }
-              else if (index == 2) {
-                widget = Container();
-              }
-              return mealImage(singleImage, index, context, widget);
-            },
+          child: Column(
+            children: [
+              SizedBox(
+                height: 100,
+              ),
+              Text("My Recipe Book",
+                style: TextStyle(
+                  fontFamily: 'Pacifico',
+                  fontSize: 40.0,
+                  color: Colors.deepPurple,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 80,
+              ),
+              CarouselSlider.builder(
+                options: CarouselOptions(
+                  height: 500,
+                  enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  enableInfiniteScroll: false,
+                ),
+                itemCount: 3,
+                itemBuilder: (context, index, realIndex) {
+                  final singleImage = imageList[index];
+                  Widget widget = MealSplashScreen();
+                  if (index == 1) {
+                    widget = Container();
+                  }
+                  else if (index == 2) {
+                    widget = Container();
+                  }
+                  return mealImage(singleImage, index, context, widget);
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -44,21 +62,23 @@ class MainScreen extends StatelessWidget {
   }
 
   Widget mealImage(String singleImage, int index, context, widgetN) =>
-      Container(
-        margin: EdgeInsets.symmetric(horizontal: 4),
-        color: Colors.grey,
-        child: Material(
-          child: Ink.image(
-            image: NetworkImage(imageList[index]),
-            fit: BoxFit.cover,
-            child: InkWell(
-              onTap: () =>
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => widgetN,
+      ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 4),
+          child: Material(
+            child: Ink.image(
+              image: NetworkImage(imageList[index]),
+              fit: BoxFit.cover,
+              child: InkWell(
+                onTap: () =>
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => widgetN,
+                      ),
                     ),
-                  ),
+              ),
             ),
           ),
         ),

@@ -6,7 +6,8 @@ class MealProvider with ChangeNotifier{
 
   String searchKey = "";
   int mealPage = 0;
-  List<MealItem> foodMealList = [];
+  List<Meal> foodMealList = [];
+  // List<MealItem> foodMealList = [];
   List<MealItem> searchMealList = [];
   bool reLoading = false;
 
@@ -32,7 +33,11 @@ class MealProvider with ChangeNotifier{
 
     for(var item in snapshotList){
       MealItem i = item.data();
-      foodMealList.add(i);
+      String id = item.id;
+      Meal m = Meal(id:  id, data:  i);
+      print(item.id);
+      foodMealList.add(m);
+
     }
 
     reLoading = false;
@@ -57,6 +62,13 @@ class MealProvider with ChangeNotifier{
       searchMealList.add(i);
     }
     // reLoading = false;
+
+    notifyListeners();
+  }
+
+  deleteMeal(id) async{
+    var collection = FirebaseFirestore.instance.collection('meal');
+    collection.doc(id).delete();
 
     notifyListeners();
   }

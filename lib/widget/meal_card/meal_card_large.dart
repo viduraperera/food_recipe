@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
 
 class MealCardLarge extends StatelessWidget {
-  final MealItem item;
+  final Meal item;
   const MealCardLarge({Key? key, required this.item}) : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class MealCardLarge extends StatelessWidget {
               padding: EdgeInsets.only(
                   left: 18 * r, right: 18 * r, top: 12 * r, bottom: 10 * r),
               child: Image(
-                image: NetworkImage(item.image),
+                image: NetworkImage(item.data.image),
                 fit: BoxFit.cover,
               ),
             ),
@@ -38,14 +38,14 @@ class MealCardLarge extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      item.name,
+                      item.data.name,
                       style: TextStyle(
                           color: kGrey1,
                           fontWeight: FontWeight.bold,
                           fontSize: 20 * r),
                     ),
                     Text(
-                      item.subTitle,
+                      item.data.subTitle,
                       style: const TextStyle(
                         color: Colors.grey,
                       ),

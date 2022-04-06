@@ -14,6 +14,7 @@ void main() async{
   await Firebase.initializeApp();
 
   runApp(EasyLocalization(
+    //initialize the language and the path
       supportedLocales: const [Locale('en', 'UK')],
       fallbackLocale: const Locale('en', 'UK'),
       path: 'assets/locales',
@@ -70,6 +71,8 @@ class MyApp extends StatelessWidget {
 }
 
 List<SingleChildWidget> providers =[
+  //initializing the providers in the main
   ChangeNotifierProvider<MealProvider>(create: (_) => MealProvider()),
   ChangeNotifierProvider<AddMealProvider>(create: (_) => AddMealProvider()),
+  ChangeNotifierProvider<UpdateMealProvider>(create: (_) => UpdateMealProvider()),
 ];

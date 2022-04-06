@@ -52,6 +52,7 @@ class _MealListState extends State<MealList> {
                   expandedHeight: h / 4.5,
                   automaticallyImplyLeading: false,
                   pinned: true,
+                  backgroundColor: Colors.transparent,
                   flexibleSpace: FlexibleSpaceBar(
                       title: Row(
                         children: const [
@@ -59,8 +60,8 @@ class _MealListState extends State<MealList> {
                           Padding(
                             padding: EdgeInsets.only(right: 10.0),
                             child: Text(
-                              "My recipe book",
-                              style: TextStyle(color: kGrey),
+                              "My Recipe Book",
+                              style: TextStyle(color: kGrey4),
                             ),
                           )
                         ],
@@ -71,11 +72,12 @@ class _MealListState extends State<MealList> {
                             gradient: LinearGradient(
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.center,
-                                colors: <Color>[kPurple, Colors.transparent])),
-                        child: Image.network(
-                          "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2F1.png?alt=media&token=12be9c23-3561-40a4-b5b2-cd29a812bd5b.png",
-                          height: (h / 4) * r,
+                                colors: <Color>[kGrey5, Colors.transparent])),
+                        child: Image(
+                          image: AssetImage("assets/images/meal.jpg",
+                          ),
                           fit: BoxFit.cover,
+                          height: (h / 4) * r,
                         ),
                       )
                   )
@@ -161,30 +163,3 @@ class _MealListState extends State<MealList> {
 }
 
 
-// Widget mostFeatured({required List data, required double r}) {
-//   return Container(
-//     margin: EdgeInsets.only(
-//         top: 10 * r, left: 15 * r, right: 10 * r, bottom: 20 * r),
-//     height: 200 * r,
-//     child: ListView.builder(
-//       itemCount: data.length,
-//       scrollDirection: Axis.horizontal,
-//       itemBuilder: (context, index) {
-//         return InkWell(
-//           onTap: () {
-//             Navigator.push(
-//                 context,
-//                 MaterialPageRoute(
-//                     builder: (context) =>
-//                         SingleMealScreen(mealItem: data[index])));
-//           },
-//           child: Container(
-//               margin: EdgeInsets.only(right: 20 * r),
-//               child: FeaturedImageCard(
-//                 item: data[index],
-//               )),
-//         );
-//       },
-//     ),
-//   );
-// }

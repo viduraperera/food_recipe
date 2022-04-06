@@ -59,18 +59,38 @@ class AddMealProvider with ChangeNotifier{
 
   Future<void> saveMealItem(MealItem item){
     CollectionReference meal = FirebaseFirestore.instance.collection('meal');
+    List ingList = [];
+    List stpList = [];
+
+    for(RecipeStep ing in item.steps){
+      stpList.add({
+        "step" : ing.step
+      });
+    }
+
+    for(IngredientItem ing in item.ingredients){
+      ingList.add({
+        "name" : ing.name
+      });
+    }
+
+    var preparation = {
+      'cookingTime': item.preparation.cookingTime,
+      'prepTime': item.preparation.prepTime,
+      'temp': item.preparation.temp,
+    };
+
 
     return meal
         .add({
       'name':item.name,
       'image':item.image,
       'subTitle': item.subTitle,
-      'description' : item.subTitle,
-      'ingredients': item.ingredients,
-      'steps' : item.steps,
-      'preparation.cookingTime': item.preparation.cookingTime,
-      'preparation.prepTime': item.preparation.prepTime,
-      'preparation.temp': item.preparation.temp,
+      'description' : item.description,
+      'ingredients': ingList,
+      'steps' : stpList,
+      'preparation': preparation,
+
     })
 
         .then((value) => print("Meal Added"))

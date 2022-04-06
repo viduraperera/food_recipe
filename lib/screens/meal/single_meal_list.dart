@@ -6,17 +6,17 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SingleMealScreen extends StatelessWidget {
-  final  MealItem mealItem;
+  final  Meal mealItem;
 
   SingleMealScreen({Key? key, required this.mealItem}) : super(key: key);
 
   final PanelController _panelController = PanelController();
   @override
   Widget build(BuildContext context) {
+
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     double r = UIManager.ratio;
-
     return Scaffold(
       body: SlidingUpPanel(
         minHeight: h / 1.7,
@@ -42,7 +42,7 @@ class SingleMealScreen extends StatelessWidget {
       child: Stack(children: [
         Image(
           width: w,
-          image: NetworkImage(mealItem.image),
+          image: NetworkImage(mealItem.data.image),
           fit: BoxFit.cover,
         ),
         Padding(
@@ -67,6 +67,8 @@ class SingleMealScreen extends StatelessWidget {
     TextStyle(fontSize: 16 * r, fontWeight: FontWeight.bold, color: kGrey);
     TextStyle valueSt =
     TextStyle(fontSize: 18 * r, fontWeight: FontWeight.bold, color: kBlack);
+
+    final rpMdl = Provider.of<MealProvider>(context, listen: false);
 
     return GestureDetector(
       onTap: (){
@@ -100,25 +102,36 @@ class SingleMealScreen extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          mealItem.name,
+                                          mealItem.data.name,
                                           style: TextStyle(
                                               fontSize: 26 * r,
                                               fontWeight: FontWeight.bold,
                                               color: kPurple),
                                         ),
-                                        Text(mealItem.subTitle),
+                                        Text(mealItem.data.subTitle),
                                       ],
                                     ),
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      tooltip: 'Increase volume by 10',
-                                      onPressed: () {  },
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      tooltip: 'Increase volume by 10',
-                                      onPressed: () {  },
-                                    ),
+                                          IconButton(
+                                            icon: const Icon(Icons.edit),
+                                            tooltip: 'Edit',
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => EditMeal(mealItem:mealItem)));
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(Icons.delete),
+                                            tooltip: 'Delete',
+                                            onPressed: () {
+                                              rpMdl.deleteMeal(mealItem.id);
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => MealList()));
+                                            },
+                                          ),
                                   ],
                                 ),
                             ),
@@ -139,7 +152,7 @@ class SingleMealScreen extends StatelessWidget {
                                         children: [
                                           Text("single_recipe.temp".tr(),
                                               style: titleSt),
-                                          Text(mealItem.preparation.temp ?? "",
+                                          Text(mealItem.data.preparation.temp ?? "",
                                               style: valueSt),
                                         ],
                                       )),
@@ -150,7 +163,7 @@ class SingleMealScreen extends StatelessWidget {
                                         children: [
                                           Text("single_recipe.pre_time".tr(),
                                               style: titleSt),
-                                          Text(mealItem.preparation.prepTime ?? "",
+                                          Text(mealItem.data.preparation.prepTime ?? "",
                                               style: valueSt),
                                         ],
                                       )),
@@ -163,7 +176,7 @@ class SingleMealScreen extends StatelessWidget {
                                             "single_recipe.cooking".tr(),
                                             style: titleSt,
                                           ),
-                                          Text(mealItem.preparation.cookingTime ?? "",
+                                          Text(mealItem.data.preparation.cookingTime ?? "",
                                               style: valueSt),
                                         ],
                                       )),
@@ -174,7 +187,7 @@ class SingleMealScreen extends StatelessWidget {
                                   style: titleSt),
                               SizedBox(height: 10 * r),
                               Text(
-                                mealItem.description ?? "",
+                                (mealItem.data.description ?? ""),
                                 style: const TextStyle(
                                     color: kBlack,
                                     fontWeight: FontWeight.w600),
@@ -188,7 +201,7 @@ class SingleMealScreen extends StatelessWidget {
                                 height: 20 * r,
                               ),
                               Column(
-                                children: mealItem.ingredients
+                                children: mealItem.data.ingredients
                                     .map((IngredientItem item) {
                                   return Padding(
                                     padding: EdgeInsets.only(bottom: 10 * r),
@@ -196,12 +209,12 @@ class SingleMealScreen extends StatelessWidget {
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
-                                        Expanded(
-                                            child: Padding(
-                                              padding:
-                                              EdgeInsets.only(right: 20 * r),
-                                              child: Text(item.amount),
-                                            )),
+                                        // Expanded(
+                                        //     child: Padding(
+                                        //       padding:
+                                        //       EdgeInsets.only(right: 20 * r),
+                                        //       child: Text(item.amount),
+                                        //     )),
                                         Expanded(
                                           flex: 2,
                                           child: Text(item.name),
@@ -225,8 +238,8 @@ class SingleMealScreen extends StatelessWidget {
                             height: 20 * r,
                           ),
                           Column(
-                            children: mealItem.steps.map((RecipeStep step) {
-                              int idx = mealItem.steps.indexOf(step) + 1;
+                            children: mealItem.data.steps.map((RecipeStep step) {
+                              int idx = mealItem.data.steps.indexOf(step) + 1;
                               return Padding(
                                   padding: EdgeInsets.all(10 * r),
                                   child: Column(
@@ -256,10 +269,10 @@ class SingleMealScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 12 * r,
-                                      ),
-                                      Text(step.description)
+                                      // SizedBox(
+                                      //   height: 12 * r,
+                                      // ),
+                                      // Text(step.description)
                                     ],
                                   ));
                             }).toList(),

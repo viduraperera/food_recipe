@@ -1,3 +1,14 @@
+class Meal{
+  final String id;
+  final MealItem data;
+
+  Meal({
+    required this.id,
+    required this.data
+});
+}
+
+
 class MealItem{
   final String name;
   final String image;
@@ -22,6 +33,7 @@ class MealItem{
           name: json["name"],
           image: json["image"],
           subTitle: json["subTitle"],
+          description: json["description"],
           ingredients: json['ingredients'] != null
           ? (json['ingredients'] as List)
           .map((value) =>  IngredientItem.fromJson(value))
@@ -68,17 +80,16 @@ class Preparation {
 }
 
 class RecipeStep {
-  // final int id;
-  final String step;
-  final String description;
+  final int? id;
+  late String step;
+  final String? description;
 
   RecipeStep({
-    // required this.id,
-    required this.step, required this.description});
+     this.id,
+    required this.step,  this.description});
 
   factory RecipeStep.fromJson(Map<String, dynamic> json) =>
       RecipeStep(
-        // id: json['id'],
         step: json['step'],
         description: json['description'],
       );
@@ -91,18 +102,17 @@ class RecipeStep {
 }
 
 class IngredientItem {
-  // final int id;
-  final String name;
-  final String amount;
+  final int? id;
+  late String name;
+  final String? amount;
 
   IngredientItem({
-    // required this.id,
-    required this.name, required this.amount});
+     this.id,
+    required this.name,  this.amount});
 
   factory IngredientItem.fromJson(Map<String, dynamic> json) =>
       IngredientItem(
         name: json['name'],
-        // id: json['id'],
         amount: json['amount'],
 
       );

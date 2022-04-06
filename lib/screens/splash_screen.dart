@@ -17,7 +17,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   navigate() async {
-    Future.delayed(const Duration(seconds: 3), () {
+    //adding duration to the splash screen
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (BuildContext context) => MainScreen()),
@@ -28,13 +29,49 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Image(
-          image: AssetImage("assets/images/main_splash.jpg"),
-          fit: BoxFit.cover,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Image(
+                image: AssetImage("assets/images/main_splash.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+        Positioned(
+          // The Positioned widget is used to position the text inside the Stack widget
+          top: 50,
+          left: 65,
+          width: 250,
+
+          child: Container(
+            // We use this Container to create a  box that wraps the  text
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                const Text(
+                  'Welcome back',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30.0),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 500,
+                ),
+                const Text(
+                  'What do you want to cook today?',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 26.0),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
         ),
+          ],
+        )
+
       ),
+
     );
   }
 }

@@ -31,3 +31,9 @@ export 'package:food_recipe/widget/inputs/input_field.dart';
 export 'package:food_recipe/screens/meal/add_meal_image.dart';
 
 export 'package:food_recipe/widget/buttons/custom_button.dart';
+
+export 'package:food_recipe/screens/meal/edit_meal.dart';
+
+export 'package:food_recipe/screens/meal/meal_splash_screen.dart';
+
+export 'package:food_recipe/providers/update_meal_provider.dart';

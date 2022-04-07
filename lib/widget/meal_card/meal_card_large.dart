@@ -12,7 +12,6 @@ class MealCardLarge extends StatelessWidget {
     double h = MediaQuery.of(context).size.height;
     double r = UIManager.ratio;
 
-
     return GestureDetector(
       child: Card(
         elevation: 3,
@@ -33,26 +32,25 @@ class MealCardLarge extends StatelessWidget {
               ),
             ),
             Padding(
-                padding: EdgeInsets.only(left: 18 * r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      item.data.name,
-                      style: TextStyle(
-                          color: kGrey1,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20 * r),
+              padding: EdgeInsets.only(left: 18 * r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    item.data.name,
+                    style: TextStyle(
+                        color: kGrey1,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20 * r),
+                  ),
+                  Text(
+                    item.data.subTitle,
+                    style: const TextStyle(
+                      color: Colors.grey,
                     ),
-                    Text(
-                      item.data.subTitle,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

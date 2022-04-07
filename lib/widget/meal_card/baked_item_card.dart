@@ -37,12 +37,13 @@ class BakedItemCardLarge extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    item.data.name,
+                    "Recipe: ${item.data.name}",
                     style: TextStyle(
                         color: kGrey1,
                         fontWeight: FontWeight.bold,
                         fontSize: 20 * r),
                   ),
+                  Padding(padding: EdgeInsets.only(bottom: 10 * r)),
                 ],
               ),
             ),

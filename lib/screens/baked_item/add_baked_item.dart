@@ -16,7 +16,6 @@ class AddBakedItem extends StatefulWidget {
 class _AddNewBakedItemState extends State<AddBakedItem> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  // final TextEditingController commentController = TextEditingController();
   final TextEditingController restTimeController = TextEditingController();
   final TextEditingController restTemperatureController =
       TextEditingController();
@@ -31,6 +30,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
   List<BakingIngredient> bakingIngredient = [];
   int ingIndex = 0;
   int stpIndex = 0;
+  bool isLoading = false;
 
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
@@ -128,41 +128,41 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
     double r = UIManager.ratio;
 
     InputField titleField = InputField(
-      hint: 'single_recipe.name'.tr(),
+      hint: 'baked_item.name'.tr(),
+      label: 'baked_item.name'.tr(),
       controller: titleController,
       onChanged: (val) {},
     );
 
-    // InputField commentField = InputField(
-    //   hint: 'single_recipe.short_des'.tr(),
-    //   // maxLength: 2,
-    //   controller: commentController,
-    // );
-
     InputField descriptionField = InputField(
-        hint: 'single_recipe.description'.tr(),
+        hint: 'baked_item.description'.tr(),
+        label: 'baked_item.description'.tr(),
         maxLength: null,
         type: TextInputType.multiline,
         controller: descriptionController,
         isMulti: true);
 
     InputField restTemperatureField = InputField(
-      hint: 'single_recipe.restTemperature'.tr(),
+      hint: 'baked_item.restTemperature'.tr(),
+      label: 'baked_item.restTemperature'.tr(),
       controller: restTemperatureController,
     );
 
     InputField restTimeField = InputField(
-      hint: 'single_recipe.restTime'.tr(),
+      hint: 'baked_item.restTime'.tr(),
+      label: 'baked_item.restTime'.tr(),
       controller: restTimeController,
     );
 
     InputField cookingTimeField = InputField(
-      hint: 'single_recipe.cookingTime'.tr(),
+      hint: 'baked_item.cookingTime'.tr(),
+      label: 'baked_item.cookingTime'.tr(),
       controller: cookingTimeController,
     );
 
     InputField cookingTemperatureField = InputField(
-      hint: 'single_recipe.cookingTemperature'.tr(),
+      hint: 'baked_item.cookingTemperature'.tr(),
+      label: 'baked_item.cookingTemperature'.tr(),
       controller: cookingTemperatureController,
     );
 
@@ -192,7 +192,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "single_recipe.bakingIngredient".tr(),
+                                    "baked_item.bakingIngredient".tr(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18 * r),
@@ -204,7 +204,8 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                                       onPressed: () {
                                         setState(() {
                                           ingInput.add(inputField(
-                                              "Ing ${ingIndex + 1}", ingIndex));
+                                              "Ingredient ${ingIndex + 1}",
+                                              ingIndex));
                                           ingIndex = ingIndex + 1;
                                         });
                                       },
@@ -244,7 +245,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "single_recipe.steps".tr(),
+                                    "baked_item.steps".tr(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18 * r),
@@ -282,24 +283,60 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
             title: 'submit'.tr(),
             onTap: () async {
               setState(() {
+                isLoading = true;
                 //   // validate = true;
               });
 
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
-                await addMdl.uploadImageToFirebase(
-                    context: context,
-                    name: titleController.text,
-                    description: descriptionController.text,
-                    restTime: restTimeController.text,
-                    restTemperature: restTemperatureController.text,
-                    cookingTemperature: cookingTemperatureController.text,
-                    cookingTime: cookingTimeController.text,
-                    ingredients: bakingIngredient,
-                    steps: bakingStep);
-                rpMdl.loadAllMeal();
+                try {
+                  final snackBar = SnackBar(
+                    content: const Text('Your Baked Item is Updated'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  await addMdl.uploadImageToFirebase(
+                      context: context,
+                      name: titleController.text,
+                      description: descriptionController.text,
+                      restTime: restTimeController.text,
+                      restTemperature: restTemperatureController.text,
+                      cookingTemperature: cookingTemperatureController.text,
+                      cookingTime: cookingTimeController.text,
+                      ingredients: bakingIngredient,
+                      steps: bakingStep);
+                  await rpMdl.loadAllMeal();
+                  isLoading = false;
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => BakedItemList()));
+                } catch (e) {
+                  final snackBar = SnackBar(
+                    content: const Text('An Error Occurred'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
               } else {
-                log('error');
+                final snackBar = SnackBar(
+                  content: const Text('Fill all the mandatory fields'),
+                  action: SnackBarAction(
+                    label: '',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             }),
       ),

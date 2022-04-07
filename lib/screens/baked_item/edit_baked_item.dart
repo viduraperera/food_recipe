@@ -167,43 +167,43 @@ class _EditBakedItemState extends State<EditBakedItem> {
     double r = UIManager.ratio;
 
     InputField titleField = InputField(
-      hint: 'single_recipe.name'.tr(),
+      hint: 'baked_item.name'.tr(),
+      label: 'baked_item.name'.tr(),
       controller: titleController,
       onChanged: (val) {
         // print(val);
       },
     );
 
-    // InputField commentField = InputField(
-    //   hint: 'single_recipe.short_des'.tr(),
-    //   // maxLength: 2,
-    //   controller: commentController,
-    // );
-
     InputField descriptionField = InputField(
-        hint: 'single_recipe.description'.tr(),
+        hint: 'baked_item.description'.tr(),
+        label: 'baked_item.description'.tr(),
         maxLength: null,
         type: TextInputType.multiline,
         controller: descriptionController,
         isMulti: true);
 
     InputField restTemperatureField = InputField(
-      hint: 'single_recipe.temp'.tr(),
+      hint: 'baked_item.restTemperature'.tr(),
+      label: 'baked_item.restTemperature'.tr(),
       controller: restTemperatureController,
     );
 
     InputField cookingTimeField = InputField(
-      hint: 'single_recipe.prepare_time'.tr(),
+      hint: 'baked_item.cookingTime'.tr(),
+      label: 'baked_item.cookingTime'.tr(),
       controller: cookingTimeController,
     );
 
     InputField cookingTemperatureField = InputField(
-      hint: 'single_recipe.cooking_time'.tr(),
+      hint: 'baked_item.cookingTemperature'.tr(),
+      label: 'baked_item.cookingTemperature'.tr(),
       controller: cookingTemperatureController,
     );
 
     InputField restTimeField = InputField(
-      hint: 'single_recipe.restTime'.tr(),
+      hint: 'baked_item.restTime'.tr(),
+      label: 'baked_item.restTime'.tr(),
       controller: restTimeController,
     );
 
@@ -233,7 +233,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "single_recipe.ingredients".tr(),
+                                    "baked_item.bakingIngredient".tr(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18 * r),
@@ -245,7 +245,8 @@ class _EditBakedItemState extends State<EditBakedItem> {
                                       onPressed: () {
                                         setState(() {
                                           ingInput.add(inputField(
-                                              label: "Ing ${ingIndex + 1}",
+                                              label:
+                                                  "Ingredient ${ingIndex + 1}",
                                               id: ingIndex));
                                           ingIndex = ingIndex + 1;
                                         });
@@ -286,7 +287,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "single_recipe.steps".tr(),
+                                    "baked_item.steps".tr(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18 * r),
@@ -351,8 +352,10 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     cookingTime: cookingTimeController.text,
                     id: widget.bakedItem.id,
                     img: widget.bakedItem.data.image);
-                rpMdl.loadAllMeal();
+                await rpMdl.loadAllMeal();
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => BakedItemList()));
               } catch (e) {
                 final snackBar = SnackBar(
                   content: const Text('An Error Occurred'),

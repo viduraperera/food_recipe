@@ -64,14 +64,14 @@ class ViewBakedItem extends StatelessWidget {
 
   Widget getPanelForBakedItem(
       {required BuildContext context, required double h, required double r}) {
-    final rMdl = Provider.of<MealProvider>(context);
+    final rMdl = Provider.of<BakedItemProvider>(context);
     final PageController controller = PageController(initialPage: 0);
     TextStyle titleSt =
         TextStyle(fontSize: 16 * r, fontWeight: FontWeight.bold, color: kGrey);
     TextStyle valueSt =
         TextStyle(fontSize: 18 * r, fontWeight: FontWeight.bold, color: kBlack);
 
-    final rpMdl = Provider.of<MealProvider>(context, listen: false);
+    final rpMdl = Provider.of<BakedItemProvider>(context, listen: false);
 
     return GestureDetector(
       onTap: () {
@@ -130,8 +130,19 @@ class ViewBakedItem extends StatelessWidget {
                                 IconButton(
                                   icon: const Icon(Icons.delete),
                                   tooltip: 'Delete',
-                                  onPressed: () {
-                                    rpMdl.deleteMeal(bakedItem.id);
+                                  onPressed: () async {
+                                    await rpMdl.deleteMeal(bakedItem.id);
+                                    final snackBar = SnackBar(
+                                      content: const Text('Baked Item Deleted'),
+                                      action: SnackBarAction(
+                                        label: '',
+                                        onPressed: () {
+                                          // Some code to undo the change.
+                                        },
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -156,7 +167,7 @@ class ViewBakedItem extends StatelessWidget {
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("single_recipe.restTime".tr(),
+                                    Text("baked_item.restTime".tr(),
                                         style: titleSt),
                                     Text(
                                         bakedItem.data.preparation.restTime ??
@@ -168,7 +179,7 @@ class ViewBakedItem extends StatelessWidget {
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("single_recipe.restTemperature".tr(),
+                                    Text("baked_item.restTemperature".tr(),
                                         style: titleSt),
                                     Text(
                                         bakedItem.data.preparation
@@ -182,7 +193,7 @@ class ViewBakedItem extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "single_recipe.cookingTime".tr(),
+                                      "baked_item.cookingTime".tr(),
                                       style: titleSt,
                                     ),
                                     Text(
@@ -195,8 +206,7 @@ class ViewBakedItem extends StatelessWidget {
                               ],
                             ),
                             SizedBox(height: 20 * r),
-                            Text("single_recipe.description".tr(),
-                                style: titleSt),
+                            Text("baked_item.description".tr(), style: titleSt),
                             SizedBox(height: 10 * r),
                             Text(
                               (bakedItem.data.description ?? ""),
@@ -206,8 +216,7 @@ class ViewBakedItem extends StatelessWidget {
                             SizedBox(
                               height: 20 * r,
                             ),
-                            Text("single_recipe.ingredients".tr(),
-                                style: titleSt),
+                            Text("baked_item.ingredients".tr(), style: titleSt),
                             SizedBox(
                               height: 20 * r,
                             ),
@@ -244,7 +253,7 @@ class ViewBakedItem extends StatelessWidget {
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("single_recipe.steps".tr(), style: titleSt),
+                      Text("baked_item.steps".tr(), style: titleSt),
                       SizedBox(
                         height: 20 * r,
                       ),

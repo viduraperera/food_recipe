@@ -39,34 +39,43 @@ class _BakedSplashScreenState extends State<BakedSplashScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          // Positioned(
-          //   // The Positioned widget is used to position the text inside the Stack widget
-          //   top: 50,
-          //   left: 65,
-          //   width: 250,
-          //
-          //   child: Container(
-          //     // We use this Container to create a  box that wraps the  text
-          //     padding: const EdgeInsets.all(10),
-          //     child: Column(
-          //       children: [
-          //         const Text(
-          //           'Welcome back',
-          //           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30.0),
-          //           textAlign: TextAlign.center,
-          //         ),
-          //         SizedBox(
-          //           height: 500,
-          //         ),
-          //         const Text(
-          //           'What do you want to cook today?',
-          //           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 26.0),
-          //           textAlign: TextAlign.center,
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
+          Positioned(
+            // The Positioned widget is used to position the text inside the Stack widget
+            top: 50,
+            left: 65,
+            width: 250,
+
+            child: Container(
+              // We use this Container to create a  box that wraps the  text
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 400,
+                  ),
+                  const Text(
+                    'Loading...',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.0),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  const Text(
+                    'Please Wait',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.0),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       )),
     );

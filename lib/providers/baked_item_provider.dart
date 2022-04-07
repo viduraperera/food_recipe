@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:food_recipe/index.dart';
 
-class MealProvider with ChangeNotifier {
+class BakedItemProvider with ChangeNotifier {
   String searchKey = "";
   int mealPage = 0;
-  List<Meal> foodMealList = [];
+  List<Baked> foodMealList = [];
   // List<MealItem> foodMealList = [];
-  List<MealItem> searchMealList = [];
+  List<BakedItem> searchMealList = [];
   bool reLoading = false;
 
   onSingleRecipePageChange(int page) {
@@ -19,22 +19,22 @@ class MealProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  final mealRef =
-      FirebaseFirestore.instance.collection('meal').withConverter<MealItem>(
-            fromFirestore: (snapshot, _) => MealItem.fromJson(snapshot.data()!),
-            toFirestore: (meal, _) => meal.toJson(),
-          );
+  final mealRef = FirebaseFirestore.instance
+      .collection('baked')
+      .withConverter<BakedItem>(
+        fromFirestore: (snapshot, _) => BakedItem.fromJson(snapshot.data()!),
+        toFirestore: (meal, _) => meal.toJson(),
+      );
 
   loadAllMeal() async {
     foodMealList.clear();
-    List<QueryDocumentSnapshot<MealItem>> snapshotList =
+    List<QueryDocumentSnapshot<BakedItem>> snapshotList =
         await mealRef.get().then((value) => value.docs);
 
     for (var item in snapshotList) {
-      MealItem i = item.data();
+      BakedItem i = item.data();
       String id = item.id;
-      Meal m = Meal(id: id, data: i);
-      print(item.id);
+      Baked m = Baked(id: id, data: i);
       foodMealList.add(m);
     }
 
@@ -45,17 +45,18 @@ class MealProvider with ChangeNotifier {
 
   loadSearch(String key) async {
     final searchRef = FirebaseFirestore.instance
-        .collection('meal')
+        .collection('baked')
         .where("name", isLessThanOrEqualTo: key)
-        .withConverter<MealItem>(
-            fromFirestore: (snapshot, _) => MealItem.fromJson(snapshot.data()!),
+        .withConverter<BakedItem>(
+            fromFirestore: (snapshot, _) =>
+                BakedItem.fromJson(snapshot.data()!),
             toFirestore: (meal, _) => meal.toJson());
 
-    List<QueryDocumentSnapshot<MealItem>> snapshotList =
+    List<QueryDocumentSnapshot<BakedItem>> snapshotList =
         await searchRef.get().then((value) => value.docs);
 
     for (var item in snapshotList) {
-      MealItem i = item.data();
+      BakedItem i = item.data();
       searchMealList.add(i);
     }
     // reLoading = false;
@@ -64,7 +65,7 @@ class MealProvider with ChangeNotifier {
   }
 
   deleteMeal(id) async {
-    var collection = FirebaseFirestore.instance.collection('meal');
+    var collection = FirebaseFirestore.instance.collection('baked');
     collection.doc(id).delete();
 
     notifyListeners();

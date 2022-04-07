@@ -52,8 +52,26 @@ export 'package:food_recipe/screens/baked_item/edit_baked_item.dart';
 
 export 'package:food_recipe/screens/meal/meal_splash_screen.dart';
 
-export 'package:food_recipe/screens/baked_item/baked_item_splash_screen.dart';
-
 export 'package:food_recipe/providers/update_meal_provider.dart';
 
 export 'package:food_recipe/providers/update_baked_item_provider.dart';
+
+export 'package:food_recipe/providers/update_meal_provider.dart';
+
+export 'package:food_recipe/screens/desserts/add_dessert.dart';
+
+export 'package:food_recipe/screens/desserts/add_dessert_image.dart';
+
+export 'package:food_recipe/screens/desserts/desserts_list.dart';
+
+export 'package:food_recipe/screens/desserts/dessert_splash_screen.dart';
+
+export 'package:food_recipe/screens/desserts/single_dessert.dart';
+
+export 'package:food_recipe/screens/desserts/update_dessert.dart';
+
+export 'package:food_recipe/screens/desserts/update_dessert_image.dart';
+
+export 'package:food_recipe/widget/dessert_card/dessert_card.dart';
+
+export 'package:food_recipe/screens/baked_item/baked_item_splash_screen.dart';

@@ -70,6 +70,8 @@ List<SingleChildWidget> providers = [
   //initializing the providers in the main
   ChangeNotifierProvider<MealProvider>(create: (_) => MealProvider()),
   ChangeNotifierProvider<AddMealProvider>(create: (_) => AddMealProvider()),
+  ChangeNotifierProvider<UpdateMealProvider>(create: (_) => UpdateMealProvider()),
+
   ChangeNotifierProvider<UpdateMealProvider>(
       create: (_) => UpdateMealProvider()),
   ChangeNotifierProvider<BakedItemProvider>(create: (_) => BakedItemProvider()),
@@ -77,4 +79,9 @@ List<SingleChildWidget> providers = [
       create: (_) => AddBakedItemProvider()),
   ChangeNotifierProvider<UpdateBakeItemProvider>(
       create: (_) => UpdateBakeItemProvider()),
+
+   //Desserts
+  ChangeNotifierProvider<DessertProvider>(create: (_) => DessertProvider()),
+  ChangeNotifierProvider<AddDessertProvider>(create: (_) => AddDessertProvider()),
+  ChangeNotifierProvider<UpdateDessertProvider>(create: (_) => UpdateDessertProvider()),
 ];

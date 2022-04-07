@@ -140,7 +140,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
   setInitialValues() {
     titleController.text = widget.bakedItem.data.name;
     descriptionController.text = widget.bakedItem.data.description!;
-    restTimeController.text = '';
+    restTimeController.text = widget.bakedItem.data.preparation.restTime!;
     restTemperatureController.text =
         widget.bakedItem.data.preparation.restTemperature!;
     cookingTimeController.text = widget.bakedItem.data.preparation.cookingTime!;
@@ -260,7 +260,15 @@ class _EditBakedItemState extends State<EditBakedItem> {
                         Column(
                           children: ingInput,
                         ),
-                        restTemperatureField,
+                        Row(
+                          children: [
+                            Expanded(child: restTemperatureField),
+                            Container(
+                              width: 16,
+                            ),
+                            Expanded(child: restTimeField),
+                          ],
+                        ),
                         Row(
                           children: [
                             Expanded(child: cookingTimeField),
@@ -337,7 +345,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     ingredients: ingredients,
                     description: descriptionController.text,
                     steps: recipeSteps,
-                    restTime: 's',
+                    restTime: restTimeController.text,
                     restTemperature: restTemperatureController.text,
                     cookingTemperature: cookingTemperatureController.text,
                     cookingTime: cookingTimeController.text,

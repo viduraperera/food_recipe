@@ -218,7 +218,15 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                         Column(
                           children: ingInput,
                         ),
-                        restTemperatureField,
+                        Row(
+                          children: [
+                            Expanded(child: restTemperatureField),
+                            Container(
+                              width: 16,
+                            ),
+                            Expanded(child: restTimeField),
+                          ],
+                        ),
                         Row(
                           children: [
                             Expanded(child: cookingTimeField),
@@ -283,6 +291,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                     context: context,
                     name: titleController.text,
                     description: descriptionController.text,
+                    restTime: restTimeController.text,
                     restTemperature: restTemperatureController.text,
                     cookingTemperature: cookingTemperatureController.text,
                     cookingTime: cookingTimeController.text,

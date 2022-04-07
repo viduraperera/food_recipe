@@ -64,7 +64,7 @@ class UpdateBakeItemProvider with ChangeNotifier {
               description: description,
               steps: steps,
               preparation: BakingPreparation(
-                  restTime: 'restTime',
+                  restTime: restTime,
                   restTemperature: restTemperature,
                   cookingTime: cookingTime,
                   cookingTemperature: cookingTemperature));

@@ -35,8 +35,8 @@ class FeatureImageDessert extends StatelessWidget {
               ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image.memory(base64Decode(item.image), fit: BoxFit.cover)
-              ),
+                  child: Image.memory(base64Decode(item.dessertImage),
+                      fit: BoxFit.cover)),
             ),
             Padding(
               padding: EdgeInsets.only(left: 20 * r, top: 20 * r),
@@ -49,7 +49,7 @@ class FeatureImageDessert extends StatelessWidget {
                           fontSize: 15 * r,
                           fontWeight: FontWeight.bold)),
                   Text(
-                    item.name,
+                    item.dessertName,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 24 * r,

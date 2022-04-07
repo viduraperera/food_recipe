@@ -2,6 +2,8 @@ export 'package:food_recipe/models/meal_item.dart';
 
 export 'package:food_recipe/models/baked_item.dart';
 
+export 'package:food_recipe/models/dessert_item.dart';
+
 export 'package:food_recipe/screens/meal/meal_list.dart';
 
 export 'package:food_recipe/screens/baked_item/baked_item_list.dart';

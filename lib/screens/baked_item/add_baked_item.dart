@@ -230,11 +230,11 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                         ),
                         Row(
                           children: [
-                            Expanded(child: cookingTimeField),
+                            Expanded(child: cookingTemperatureField),
                             Container(
                               width: 16,
                             ),
-                            Expanded(child: cookingTemperatureField),
+                            Expanded(child: cookingTimeField),
                           ],
                         ),
                         Padding(

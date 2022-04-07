@@ -272,11 +272,11 @@ class _EditBakedItemState extends State<EditBakedItem> {
                         ),
                         Row(
                           children: [
-                            Expanded(child: cookingTimeField),
+                            Expanded(child: cookingTemperatureField),
                             Container(
                               width: 16,
                             ),
-                            Expanded(child: cookingTemperatureField),
+                            Expanded(child: cookingTimeField),
                           ],
                         ),
                         Padding(

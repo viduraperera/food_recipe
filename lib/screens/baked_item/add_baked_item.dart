@@ -291,7 +291,8 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
               if (formKey.currentState!.validate()) {
                 try {
                   final snackBar = SnackBar(
-                    content: const Text('Your Baked Item is Updated'),
+                    content: const Text(
+                        'Your Baked Item is being saved. Please wait..'),
                     action: SnackBarAction(
                       label: '',
                       onPressed: () {
@@ -299,6 +300,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                       },
                     ),
                   );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   await addMdl.uploadImageToFirebase(
                       context: context,
                       name: titleController.text,
@@ -310,8 +312,18 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                       ingredients: bakingIngredient,
                       steps: bakingStep);
                   await rpMdl.loadAllMeal();
+                  ScaffoldMessenger.of(context).clearSnackBars();
                   isLoading = false;
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  final savedSnackBar = SnackBar(
+                    content: const Text('Your Baked Item is Saved'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => BakedItemList()));
                 } catch (e) {

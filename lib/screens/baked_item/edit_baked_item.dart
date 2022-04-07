@@ -332,7 +332,8 @@ class _EditBakedItemState extends State<EditBakedItem> {
             if (formKey.currentState!.validate()) {
               try {
                 final snackBar = SnackBar(
-                  content: const Text('Your Meal is Updated'),
+                  content: const Text(
+                      'Your Baked Item is being Updated. Please wait..'),
                   action: SnackBarAction(
                     label: '',
                     onPressed: () {
@@ -340,6 +341,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     },
                   ),
                 );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 await updateMdl.updateImageToFirebase(
                     context: context,
                     name: titleController.text,
@@ -353,7 +355,17 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     id: widget.bakedItem.id,
                     img: widget.bakedItem.data.image);
                 await rpMdl.loadAllMeal();
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                ScaffoldMessenger.of(context).clearSnackBars();
+                final updatedSnackBar = SnackBar(
+                  content: const Text('Your Baked Item is Updated'),
+                  action: SnackBarAction(
+                    label: '',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(updatedSnackBar);
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => BakedItemList()));
               } catch (e) {

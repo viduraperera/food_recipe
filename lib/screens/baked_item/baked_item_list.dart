@@ -70,7 +70,7 @@ class _BakedItemListState extends State<BakedItemList> {
                             colors: <Color>[kGrey5, Colors.transparent])),
                     child: Image(
                       image: AssetImage(
-                        "assets/images/meal.jpg",
+                        "assets/images/pastry.jpg",
                       ),
                       fit: BoxFit.cover,
                       height: (h / 4) * r,

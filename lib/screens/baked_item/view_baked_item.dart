@@ -131,9 +131,9 @@ class ViewBakedItem extends StatelessWidget {
                                   icon: const Icon(Icons.delete),
                                   tooltip: 'Delete',
                                   onPressed: () async {
-                                    await rpMdl.deleteMeal(bakedItem.id);
                                     final snackBar = SnackBar(
-                                      content: const Text('Baked Item Deleted'),
+                                      content: const Text(
+                                          'Baked Item is being Deleted. Please wait..'),
                                       action: SnackBarAction(
                                         label: '',
                                         onPressed: () {
@@ -143,6 +143,20 @@ class ViewBakedItem extends StatelessWidget {
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
+                                    await rpMdl.deleteMeal(bakedItem.id);
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    final deletedSnackBar = SnackBar(
+                                      content: const Text('Baked Item Deleted'),
+                                      action: SnackBarAction(
+                                        label: '',
+                                        onPressed: () {
+                                          // Some code to undo the change.
+                                        },
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(deletedSnackBar);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -235,7 +249,8 @@ class ViewBakedItem extends StatelessWidget {
                             SizedBox(
                               height: 20 * r,
                             ),
-                            Text("baked_item.ingredients".tr(), style: titleSt),
+                            Text("baked_item.bakingIngredient".tr(),
+                                style: titleSt),
                             SizedBox(
                               height: 20 * r,
                             ),

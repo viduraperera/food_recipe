@@ -167,10 +167,11 @@ class ViewBakedItem extends StatelessWidget {
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("baked_item.restTime".tr(),
+                                    Text("baked_item.restTemperature".tr(),
                                         style: titleSt),
                                     Text(
-                                        bakedItem.data.preparation.restTime ??
+                                        bakedItem.data.preparation
+                                                .restTemperature ??
                                             "",
                                         style: valueSt),
                                   ],
@@ -179,11 +180,29 @@ class ViewBakedItem extends StatelessWidget {
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("baked_item.restTemperature".tr(),
+                                    Text("baked_item.restTime".tr(),
+                                        style: titleSt),
+                                    Text(
+                                        bakedItem.data.preparation.restTime ??
+                                            "",
+                                        style: valueSt),
+                                  ],
+                                )),
+                              ],
+                            ),
+                            SizedBox(height: 20 * r),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("baked_item.cookingTemperature".tr(),
                                         style: titleSt),
                                     Text(
                                         bakedItem.data.preparation
-                                                .restTemperature ??
+                                                .cookingTemperature ??
                                             "",
                                         style: valueSt),
                                   ],

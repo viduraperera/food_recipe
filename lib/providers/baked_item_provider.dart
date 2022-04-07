@@ -35,7 +35,6 @@ class BakedItemProvider with ChangeNotifier {
       BakedItem i = item.data();
       String id = item.id;
       Baked m = Baked(id: id, data: i);
-      print(item.id);
       foodMealList.add(m);
     }
 

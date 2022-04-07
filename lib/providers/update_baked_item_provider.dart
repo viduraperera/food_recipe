@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,34 +54,37 @@ class UpdateBakeItemProvider with ChangeNotifier {
                   cookingTime: cookingTime,
                   cookingTemperature: cookingTemperature));
           saveMealItem(mealItem, id);
-
-          print(downloadURL);
         });
       } else {
-        BakedItem mealItem = BakedItem(
-            name: name,
-            image: downloadURL!,
-            ingredients: ingredients,
-            description: description,
-            steps: steps,
-            preparation: BakingPreparation(
-                restTime: restTime,
-                restTemperature: restTemperature,
-                cookingTime: cookingTime,
-                cookingTemperature: cookingTemperature));
-        saveMealItem(mealItem, id);
+        try {
+          BakedItem mealItem = BakedItem(
+              name: name,
+              image: img,
+              ingredients: ingredients,
+              description: description,
+              steps: steps,
+              preparation: BakingPreparation(
+                  restTime: 'restTime',
+                  restTemperature: restTemperature,
+                  cookingTime: cookingTime,
+                  cookingTemperature: cookingTemperature));
+          log('here');
+          inspect(mealItem);
+          saveMealItem(mealItem, id);
+        } catch (e) {
+          print(e);
+        }
       }
     } on FirebaseException catch (e) {
-      print(e);
+      print('update $e');
     }
   }
 
   Future<void> saveMealItem(BakedItem item, id) {
-    CollectionReference meal = FirebaseFirestore.instance.collection('baked');
+    CollectionReference bakedItem =
+        FirebaseFirestore.instance.collection('baked');
     List ingredientsList = [];
     List stepList = [];
-
-    print(id);
 
     for (BakingStep stp in item.steps) {
       stepList.add({"step": stp.step});
@@ -97,7 +101,7 @@ class UpdateBakeItemProvider with ChangeNotifier {
       'cookingTemperature': item.preparation.cookingTemperature,
     };
 
-    return meal
+    return bakedItem
         .doc(id)
         .update({
           'name': item.name,

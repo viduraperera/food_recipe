@@ -1,10 +1,10 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
-import 'package:food_recipe/screens/meal/update_mael_image.dart';
+import 'package:food_recipe/screens/baked_item/update_baked_item_image.dart';
 import 'package:provider/provider.dart';
-import '../../global/app_colors.dart';
 
 class EditBakedItem extends StatefulWidget {
   final Baked bakedItem;
@@ -70,7 +70,6 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     suffixIcon: IconButton(
                         icon: const Icon(Icons.close, color: kGrey, size: 20),
                         onPressed: () {
-                          print(id);
                           setState(() {
                             ingInput.removeAt(id);
                             ingredients
@@ -119,7 +118,6 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     suffixIcon: IconButton(
                         icon: const Icon(Icons.close, color: kGrey, size: 20),
                         onPressed: () {
-                          print(id);
                           setState(() {
                             stpInput.removeAt(id);
                             recipeSteps
@@ -142,6 +140,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
   setInitialValues() {
     titleController.text = widget.bakedItem.data.name;
     descriptionController.text = widget.bakedItem.data.description!;
+    restTimeController.text = '';
     restTemperatureController.text =
         widget.bakedItem.data.preparation.restTemperature!;
     cookingTimeController.text = widget.bakedItem.data.preparation.cookingTime!;
@@ -171,7 +170,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
       hint: 'single_recipe.name'.tr(),
       controller: titleController,
       onChanged: (val) {
-        print(val);
+        // print(val);
       },
     );
 
@@ -216,7 +215,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
             SizedBox(
               height: 30 * r,
             ),
-            UpdateMealImage(image: widget.bakedItem.data.image),
+            UpdateBakedItemImage(image: widget.bakedItem.data.image),
             Container(
               padding: EdgeInsets.all(10 * r),
               child: Form(
@@ -319,51 +318,50 @@ class _EditBakedItemState extends State<EditBakedItem> {
             setState(() {
               //   // validate = true;
             });
-            print(titleController.text);
+            // print(titleController.text);
             formKey.currentState!.save();
             if (formKey.currentState!.validate()) {
-              await updateMdl.updateImageToFirebase(
-                  context: context,
-                  name: titleController.text,
-                  ingredients: ingredients,
-                  description: descriptionController.text,
-                  steps: recipeSteps,
-                  restTemperature: restTemperatureController.text,
-                  cookingTemperature: cookingTemperatureController.text,
-                  cookingTime: cookingTimeController.text,
-                  id: widget.bakedItem.id,
-                  img: widget.bakedItem.data.image);
-              rpMdl.loadAllMeal();
+              try {
+                final snackBar = SnackBar(
+                  content: const Text('Your Meal is Updated'),
+                  action: SnackBarAction(
+                    label: '',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+                await updateMdl.updateImageToFirebase(
+                    context: context,
+                    name: titleController.text,
+                    ingredients: ingredients,
+                    description: descriptionController.text,
+                    steps: recipeSteps,
+                    restTime: 's',
+                    restTemperature: restTemperatureController.text,
+                    cookingTemperature: cookingTemperatureController.text,
+                    cookingTime: cookingTimeController.text,
+                    id: widget.bakedItem.id,
+                    img: widget.bakedItem.data.image);
+                rpMdl.loadAllMeal();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              } catch (e) {
+                final snackBar = SnackBar(
+                  content: const Text('An Error Occurred'),
+                  action: SnackBarAction(
+                    label: '',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                print(e);
+              }
             }
-            final snackBar = SnackBar(
-              content: const Text('Your Meal is Updated'),
-              action: SnackBarAction(
-                label: '',
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
         ),
       ),
     );
   }
 }
-
-
-// Navigator.push(
-// context,
-// MaterialPageRoute(
-// builder: (context) => MealList()));
-// final snackBar = SnackBar(
-//   content: const Text('Yay! A SnackBar!'),
-//   action: SnackBarAction(
-//     label: 'Undo',
-//     onPressed: () {
-//       // Some code to undo the change.
-//     },
-//   ),
-// );
-// ScaffoldMessenger.of(context).showSnackBar(snackBar);

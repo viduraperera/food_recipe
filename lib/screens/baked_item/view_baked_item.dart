@@ -135,7 +135,8 @@ class ViewBakedItem extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => MealList()));
+                                            builder: (context) =>
+                                                BakedItemList()));
                                   },
                                 ),
                               ],

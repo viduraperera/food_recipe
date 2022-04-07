@@ -8,24 +8,20 @@ import 'package:food_recipe/index.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
 
   runApp(EasyLocalization(
-    //initialize the language and the path
+      //initialize the language and the path
       supportedLocales: const [Locale('en', 'UK')],
       fallbackLocale: const Locale('en', 'UK'),
       path: 'assets/locales',
       child: MyApp()));
 }
 
-
-
-
 class MyApp extends StatelessWidget {
-
   final mySystemTheme = SystemUiOverlayStyle.light.copyWith(
       statusBarBrightness: Brightness.light,
       statusBarIconBrightness: Brightness.light);
@@ -70,9 +66,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-List<SingleChildWidget> providers =[
+List<SingleChildWidget> providers = [
   //initializing the providers in the main
   ChangeNotifierProvider<MealProvider>(create: (_) => MealProvider()),
   ChangeNotifierProvider<AddMealProvider>(create: (_) => AddMealProvider()),
-  ChangeNotifierProvider<UpdateMealProvider>(create: (_) => UpdateMealProvider()),
+  ChangeNotifierProvider<UpdateMealProvider>(
+      create: (_) => UpdateMealProvider()),
+  ChangeNotifierProvider<BakedItemProvider>(create: (_) => BakedItemProvider()),
+  ChangeNotifierProvider<AddBakedItemProvider>(
+      create: (_) => AddBakedItemProvider()),
+  ChangeNotifierProvider<UpdateBakeItemProvider>(
+      create: (_) => UpdateBakeItemProvider()),
 ];

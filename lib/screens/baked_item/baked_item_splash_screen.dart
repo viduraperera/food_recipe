@@ -35,7 +35,7 @@ class _BakedSplashScreenState extends State<BakedSplashScreen> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Image(
-              image: AssetImage("assets/images/bake.png"),
+              image: AssetImage("assets/images/bakedSplash.jpg"),
               fit: BoxFit.cover,
             ),
           ),

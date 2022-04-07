@@ -42,6 +42,8 @@ export 'package:food_recipe/widget/inputs/input_field.dart';
 
 export 'package:food_recipe/screens/meal/add_meal_image.dart';
 
+export 'package:food_recipe/screens/baked_item/add_baked_item_image.dart';
+
 export 'package:food_recipe/widget/buttons/custom_button.dart';
 
 export 'package:food_recipe/screens/meal/edit_meal.dart';

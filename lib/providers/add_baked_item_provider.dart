@@ -49,8 +49,6 @@ class AddBakedItemProvider with ChangeNotifier {
                 cookingTime: cookingTime,
                 cookingTemperature: cookingTemperature));
         saveMealItem(mealItem);
-
-        print(downloadURL);
       });
     } on FirebaseException catch (e) {
       print(e);
@@ -58,7 +56,7 @@ class AddBakedItemProvider with ChangeNotifier {
   }
 
   Future<void> saveMealItem(BakedItem item) {
-    CollectionReference meal = FirebaseFirestore.instance.collection('meal');
+    CollectionReference meal = FirebaseFirestore.instance.collection('baked');
     List ingredientsList = [];
     List stepList = [];
 

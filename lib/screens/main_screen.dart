@@ -8,7 +8,7 @@ class MainScreen extends StatelessWidget {
 
   List<String> imageList = [
     "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2F1.png?alt=media&token=12be9c23-3561-40a4-b5b2-cd29a812bd5b.png",
-    "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2F3.png?alt=media&token=db43eaae-3c23-4c53-8241-78506446954a.png",
+    "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2FbakedSplash.jpg?alt=media&token=9a289f9a-5f48-4ea2-bb3c-9835867ed100",
     "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2F2.png?alt=media&token=d1f21619-6b8a-48b4-8629-aa54e144eb34.png",
   ];
 

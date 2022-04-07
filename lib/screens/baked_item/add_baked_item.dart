@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +61,6 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                     suffixIcon: IconButton(
                         icon: const Icon(Icons.close, color: kGrey, size: 20),
                         onPressed: () {
-                          print(id);
                           setState(() {
                             ingInput.removeAt(id);
                             bakingIngredient
@@ -102,7 +103,6 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                     suffixIcon: IconButton(
                         icon: const Icon(Icons.close, color: kGrey, size: 20),
                         onPressed: () {
-                          print(id);
                           setState(() {
                             stpInput.removeAt(id);
                             bakingStep.removeWhere((item) => item.id == stp.id);
@@ -130,9 +130,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
     InputField titleField = InputField(
       hint: 'single_recipe.name'.tr(),
       controller: titleController,
-      onChanged: (val) {
-        print(val);
-      },
+      onChanged: (val) {},
     );
 
     // InputField commentField = InputField(
@@ -176,7 +174,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
             SizedBox(
               height: 30 * r,
             ),
-            const AddMealImage(),
+            const AddBakedItemImage(),
             Container(
               padding: EdgeInsets.all(10 * r),
               child: Form(
@@ -291,6 +289,8 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                     ingredients: bakingIngredient,
                     steps: bakingStep);
                 rpMdl.loadAllMeal();
+              } else {
+                log('error');
               }
             }),
       ),

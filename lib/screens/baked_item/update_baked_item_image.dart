@@ -1,6 +1,3 @@
-// import 'dart:html';
-
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,23 +6,27 @@ import 'dart:async';
 import 'dart:io';
 import 'package:food_recipe/index.dart';
 
-class AddBakedItemImage extends StatefulWidget {
-  const AddBakedItemImage({Key? key}) : super(key: key);
+class UpdateBakedItemImage extends StatefulWidget {
+  final String image;
+  const UpdateBakedItemImage({Key? key, required this.image}) : super(key: key);
 
   @override
-  _AddBakedItemImageState createState() => _AddBakedItemImageState();
+  State<UpdateBakedItemImage> createState() => _UpdateBakedItemImageState();
 }
 
-class _AddBakedItemImageState extends State<AddBakedItemImage> {
+class _UpdateBakedItemImageState extends State<UpdateBakedItemImage> {
   XFile? _imageFile;
   dynamic _pickImageError;
   String? _retrieveDataError;
+  String? _extImage;
 
   final ImagePicker _picker = ImagePicker();
 
   void _onImageButtonPressed(ImageSource source,
       {required BuildContext context, maxWidth, maxHeight}) async {
-    final addMdl = Provider.of<AddBakedItemProvider>(context, listen: false);
+    // final addMdl = Provider.of<AddMealProvider>(context, listen: false);
+    final updateMdl =
+        Provider.of<UpdateBakeItemProvider>(context, listen: false);
     try {
       final pickedFile = await _picker.pickImage(
         source: source,
@@ -35,7 +36,7 @@ class _AddBakedItemImageState extends State<AddBakedItemImage> {
       );
       setState(() {
         _imageFile = pickedFile!;
-        addMdl.pickMealImage(File(_imageFile!.path));
+        updateMdl.pickMealImage(File(_imageFile!.path));
       });
     } catch (e) {
       setState(() {
@@ -120,36 +121,49 @@ class _AddBakedItemImageState extends State<AddBakedItemImage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _extImage = widget.image;
+  }
+
+  @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    return Center(
-      child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
-          ? FutureBuilder<void>(
-              future: retrieveLostData(),
-              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                  case ConnectionState.waiting:
-                    return imagePlaceHolder(h: h, w: w);
-                  case ConnectionState.done:
-                    return _previewImage(h: h, w: w);
-                  default:
-                    if (snapshot.hasError) {
-                      return Text(
-                        'Pick image error: ${snapshot.error}}',
-                        textAlign: TextAlign.center,
-                      );
-                    } else {
+    if (_extImage != null) {
+      return Center(
+        child: Image.network(_extImage!),
+      );
+    } else {
+      return Center(
+        child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+            ? FutureBuilder<void>(
+                future: retrieveLostData(),
+                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
                       return imagePlaceHolder(h: h, w: w);
-                    }
-                }
-              },
-            )
-          : _previewImage(h: h, w: w),
-    );
+                    case ConnectionState.done:
+                      return _previewImage(h: h, w: w);
+                    default:
+                      if (snapshot.hasError) {
+                        return Text(
+                          'Pick image error: ${snapshot.error}}',
+                          textAlign: TextAlign.center,
+                        );
+                      } else {
+                        return imagePlaceHolder(h: h, w: w);
+                      }
+                  }
+                },
+              )
+            : _previewImage(h: h, w: w),
+      );
+    }
   }
 }
 
-typedef OnPickImageCallbackForBaked = void Function(
+typedef OnPickImageCallback = void Function(
     double maxWidth, double maxHeight, int quality);

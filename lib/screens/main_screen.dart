@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
 
 class MainScreen extends StatelessWidget {
-
   MainScreen({Key? key}) : super(key: key);
 
   List<String> imageList = [
@@ -23,7 +22,8 @@ class MainScreen extends StatelessWidget {
               SizedBox(
                 height: 100,
               ),
-              Text("My Recipe Book",
+              Text(
+                "My Recipe Book",
                 style: TextStyle(
                   fontFamily: 'Pacifico',
                   fontSize: 40.0,
@@ -46,9 +46,8 @@ class MainScreen extends StatelessWidget {
                   final singleImage = imageList[index];
                   Widget widget = MealSplashScreen();
                   if (index == 1) {
-                    widget = Container();
-                  }
-                  else if (index == 2) {
+                    widget = BakedSplashScreen();
+                  } else if (index == 2) {
                     widget = Container();
                   }
                   return mealImage(singleImage, index, context, widget);
@@ -71,13 +70,12 @@ class MainScreen extends StatelessWidget {
               image: NetworkImage(imageList[index]),
               fit: BoxFit.cover,
               child: InkWell(
-                onTap: () =>
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => widgetN,
-                      ),
-                    ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => widgetN,
+                  ),
+                ),
               ),
             ),
           ),

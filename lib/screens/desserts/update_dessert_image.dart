@@ -6,6 +6,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:food_recipe/index.dart';
 
+import '../../providers/update_dessert_provider.dart';
+
 class UpdateDessertImage extends StatefulWidget {
   final String image;
   const UpdateDessertImage({Key? key, required this.image}) : super(key: key);

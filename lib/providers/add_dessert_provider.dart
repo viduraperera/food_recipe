@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -9,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:food_recipe/index.dart';
+
+import '../models/dessert_item.dart';
 
 class AddDessertProvider with ChangeNotifier{
   late File imageFile;
@@ -39,14 +39,14 @@ class AddDessertProvider with ChangeNotifier{
             .getDownloadURL();
 
         DessertItem dessertItem = DessertItem(
-            name: name,
-            image: downloadURL!,
+            dessertName: name,
+            dessertImage: downloadURL!,
             subTitle: sub,
             ingredients: ing,
             description: des,
             steps: stp,
             preparation:
-            Preparation(temp: temp, prepTime: pre));
+              PreparationDessert(temp: temp, prepTime: pre));
         saveDessertItem(dessertItem);
 
         print(downloadURL);
@@ -58,21 +58,39 @@ class AddDessertProvider with ChangeNotifier{
 
   Future<void> saveDessertItem(DessertItem item){
     CollectionReference dessert = FirebaseFirestore.instance.collection('dessert');
+    List ingList = [];
+    List stpList = [];
+
+    for(RecipeStepDessert ing in item.steps){
+      stpList.add({
+        'step' : ing.step
+      });
+    }
+
+    for(IngredientItemDessert ing in item.ingredients){
+      ingList.add({
+        'name' : ing.name
+      });
+    }
+
+    var preparation = {
+      'prepTime': item.preparation.prepTime,
+      'temp': item.preparation.temp,
+    };
 
     return dessert
         .add({
-      'name':item.name,
-      'image':item.image,
+      'dessertName':item.dessertName,
+      'dessertImage':item.dessertImage,
       'subTitle': item.subTitle,
       'description' : item.subTitle,
       'ingredients': item.ingredients,
       'steps' : item.steps,
-      'preparation.cookingTime': item.preparation.cookingTime,
-      'preparation.prepTime': item.preparation.prepTime,
-      'preparation.temp': item.preparation.temp,
+      'preparation': preparation,
+
     })
 
         .then((value) => print("New Dessert Added"))
-        .catchError((error) => print("Failed to add dessert: $error"));
+        .catchError((error) => print("Failed to add the dessert: $error"));
   }
 }

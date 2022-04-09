@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
+import 'package:food_recipe/screens/desserts/single_dessert.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../providers/dessert_provider.dart';
 import 'add_dessert.dart';
 
 class DessertList extends StatefulWidget {
@@ -20,8 +22,6 @@ class _DessertListState extends State<DessertList> {
     super.initState();
     final rpDessertdl = Provider.of<DessertProvider>(context, listen: false);
     rpDessertdl.loadAllDesserts();
-
-
   }
 
   @override
@@ -52,6 +52,7 @@ class _DessertListState extends State<DessertList> {
                   expandedHeight: h / 4.5,
                   automaticallyImplyLeading: false,
                   pinned: true,
+                  backgroundColor: Colors.transparent,
                   flexibleSpace: FlexibleSpaceBar(
                       title: Row(
                         children: const [
@@ -72,8 +73,8 @@ class _DessertListState extends State<DessertList> {
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.center,
                                 colors: <Color>[kPurple, Colors.transparent])),
-                        child: Image.network(
-                          "https://firebasestorage.googleapis.com/v0/b/ctse-food-recipe.appspot.com/o/main%2F1.png?alt=media&token=12be9c23-3561-40a4-b5b2-cd29a812bd5b.png",
+                        child: Image(
+                          image: AssetImage('assets/images/dessert.jpg',),
                           height: (h / 4) * r,
                           fit: BoxFit.cover,
                         ),
@@ -142,8 +143,8 @@ class _DessertListState extends State<DessertList> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => SingleMealScreen(
-                                        mealItem: rpDessertdl.dessertListProvider[index])));
+                                    builder: (context) => SingleDessert(
+                                        dessertItem: rpDessertdl.dessertListProvider[index])));
                           },
                           child: DessertCard(item: rpDessertdl.dessertListProvider[index]),
                         ),

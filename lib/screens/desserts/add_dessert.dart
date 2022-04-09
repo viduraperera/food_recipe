@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/add_dessert_provider.dart';
+import '../../providers/dessert_provider.dart';
+import 'add_dessert_image.dart';
+
 class AddNewDessert extends StatefulWidget {
   const AddNewDessert({Key? key}) : super(key: key);
 
@@ -12,7 +16,7 @@ class AddNewDessert extends StatefulWidget {
 }
 
 class _AddNewDessertState extends State<AddNewDessert> {
-  final TextEditingController titleControllerDesserts = TextEditingController();
+  final TextEditingController titleControllerDessert = TextEditingController();
   final TextEditingController detailControllerDessert = TextEditingController();
   final TextEditingController commentControllerDessert = TextEditingController();
   final TextEditingController tempControllerDessert = TextEditingController();
@@ -29,6 +33,8 @@ class _AddNewDessertState extends State<AddNewDessert> {
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
     // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
+    IngredientItem ing = IngredientItem(id:id, name: "");
+    ingredients.add(ing);
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,6 +46,11 @@ class _AddNewDessertState extends State<AddNewDessert> {
                   key: Key(id.toString()),
                   onChanged: (String value) {
                     // changeInputValue(value, id);
+                    for(IngredientItem i in ingredients){
+                      if(i.id == ing.id){
+                        i.name = value;
+                      }
+                    }
                   },
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -51,6 +62,7 @@ class _AddNewDessertState extends State<AddNewDessert> {
                           print(id);
                           setState(() {
                             ingInput.removeAt(id);
+                            ingredients.removeWhere((item) => item.id == ing.id);
                           });
                         }),
                     hintText: label,
@@ -63,6 +75,8 @@ class _AddNewDessertState extends State<AddNewDessert> {
   Widget stepsField(label, id) {
     final _ctrl = TextEditingController();
     // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
+    RecipeStep stp = RecipeStep(id:id, step: "");
+    recipeSteps.add(stp);
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,6 +88,11 @@ class _AddNewDessertState extends State<AddNewDessert> {
                   key: Key(id.toString()),
                   onChanged: (String value) {
                     // changeInputValue(value, id);
+                    for(RecipeStep i in recipeSteps){
+                      if(i.id == stp.id){
+                        i.step = value;
+                      }
+                    }
                   },
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -85,6 +104,7 @@ class _AddNewDessertState extends State<AddNewDessert> {
                           print(id);
                           setState(() {
                             stpInput.removeAt(id);
+                            recipeSteps.removeWhere((item) => item.id == stp.id);
                           });
                         }),
                     hintText: label,
@@ -108,7 +128,7 @@ class _AddNewDessertState extends State<AddNewDessert> {
 
     InputField titleField = InputField(
       hint: 'single_recipe_dessert.name'.tr(),
-      controller: titleControllerDesserts,
+      controller: titleControllerDessert,
       onChanged: (val) {
         print(val);
       },
@@ -246,11 +266,11 @@ class _AddNewDessertState extends State<AddNewDessert> {
               setState(() {
                 //   // validate = true;
               });
-              print(titleControllerDesserts.text);
+
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
                 await addDesserts.uploadImageToFirebase(context: context,
-                    name: titleControllerDesserts.text,
+                    name: titleControllerDessert.text,
                     sub: commentControllerDessert.text,
                     ing: ingredients,
                     des: detailControllerDessert.text,

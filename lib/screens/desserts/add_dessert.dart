@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
+import 'package:food_recipe/models/dessert_item.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/add_dessert_provider.dart';
@@ -18,22 +19,24 @@ class AddNewDessert extends StatefulWidget {
 class _AddNewDessertState extends State<AddNewDessert> {
   final TextEditingController titleControllerDessert = TextEditingController();
   final TextEditingController detailControllerDessert = TextEditingController();
-  final TextEditingController commentControllerDessert = TextEditingController();
+  final TextEditingController commentControllerDessert =
+      TextEditingController();
   final TextEditingController tempControllerDessert = TextEditingController();
-  final TextEditingController prepTimeControllerDessert = TextEditingController();
+  final TextEditingController prepTimeControllerDessert =
+      TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   List<Widget> ingInput = [];
   List<Widget> stpInput = [];
-  List<RecipeStep> recipeSteps = [];
-  List<IngredientItem> ingredients = [];
+  List<RecipeStepDessert> recipeSteps = [];
+  List<IngredientItemDessert> ingredients = [];
   int ingIndex = 0;
   int stpIndex = 0;
 
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
     // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
-    IngredientItem ing = IngredientItem(id:id, name: "");
+    IngredientItemDessert ing = IngredientItemDessert(id: id, name: "");
     ingredients.add(ing);
 
     return Column(
@@ -46,8 +49,8 @@ class _AddNewDessertState extends State<AddNewDessert> {
                   key: Key(id.toString()),
                   onChanged: (String value) {
                     // changeInputValue(value, id);
-                    for(IngredientItem i in ingredients){
-                      if(i.id == ing.id){
+                    for (IngredientItemDessert i in ingredients) {
+                      if (i.id == ing.id) {
                         i.name = value;
                       }
                     }
@@ -62,7 +65,8 @@ class _AddNewDessertState extends State<AddNewDessert> {
                           print(id);
                           setState(() {
                             ingInput.removeAt(id);
-                            ingredients.removeWhere((item) => item.id == ing.id);
+                            ingredients
+                                .removeWhere((item) => item.id == ing.id);
                           });
                         }),
                     hintText: label,
@@ -75,7 +79,7 @@ class _AddNewDessertState extends State<AddNewDessert> {
   Widget stepsField(label, id) {
     final _ctrl = TextEditingController();
     // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
-    RecipeStep stp = RecipeStep(id:id, step: "");
+    RecipeStepDessert stp = RecipeStepDessert(id: id, step: "");
     recipeSteps.add(stp);
 
     return Column(
@@ -88,8 +92,8 @@ class _AddNewDessertState extends State<AddNewDessert> {
                   key: Key(id.toString()),
                   onChanged: (String value) {
                     // changeInputValue(value, id);
-                    for(RecipeStep i in recipeSteps){
-                      if(i.id == stp.id){
+                    for (RecipeStepDessert i in recipeSteps) {
+                      if (i.id == stp.id) {
                         i.step = value;
                       }
                     }
@@ -104,7 +108,8 @@ class _AddNewDessertState extends State<AddNewDessert> {
                           print(id);
                           setState(() {
                             stpInput.removeAt(id);
-                            recipeSteps.removeWhere((item) => item.id == stp.id);
+                            recipeSteps
+                                .removeWhere((item) => item.id == stp.id);
                           });
                         }),
                     hintText: label,
@@ -269,15 +274,15 @@ class _AddNewDessertState extends State<AddNewDessert> {
 
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
-                await addDesserts.uploadImageToFirebase(context: context,
+                await addDesserts.uploadImageToFirebase(
+                    context: context,
                     name: titleControllerDessert.text,
                     sub: commentControllerDessert.text,
                     ing: ingredients,
                     des: detailControllerDessert.text,
                     stp: recipeSteps,
                     temp: tempControllerDessert.text,
-                    pre: prepTimeControllerDessert.text
-                );
+                    pre: prepTimeControllerDessert.text);
                 rpDessertdl.loadAllDesserts();
               }
             }),

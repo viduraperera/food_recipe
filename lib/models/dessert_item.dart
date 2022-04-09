@@ -1,14 +1,11 @@
-class Dessert{
+class Dessert {
   final String id;
   final DessertItem data;
 
-  Dessert({
-    required this.id,
-    required this.data
-  });
+  Dessert({required this.id, required this.data});
 }
 
-class DessertItem{
+class DessertItem {
   final String dessertName;
   final String dessertImage;
   final String subTitle;
@@ -17,49 +14,46 @@ class DessertItem{
   final List<RecipeStepDessert> steps;
   final PreparationDessert preparation;
 
-  DessertItem({
-    required this.dessertName,
-    required this.dessertImage,
-    required this.subTitle,
-    this.description,
-    required this.ingredients,
-    required this.steps,
-    required this.preparation
-  });
+  DessertItem(
+      {required this.dessertName,
+      required this.dessertImage,
+      required this.subTitle,
+      this.description,
+      required this.ingredients,
+      required this.steps,
+      required this.preparation});
 
-  factory DessertItem.fromJson(Map<String, dynamic> json) =>
-      DessertItem(
-          dessertName: json["name"],
-          dessertImage: json["image"],
-          subTitle: json["subTitle"],
-          ingredients: json['ingredients'] != null
-              ? (json['ingredients'] as List)
-              .map((value) =>  IngredientItemDessert.fromJson(value))
+  factory DessertItem.fromJson(Map<String, dynamic> json) => DessertItem(
+      dessertName: json["name"],
+      dessertImage: json["image"],
+      subTitle: json["subTitle"],
+      ingredients: json['ingredients'] != null
+          ? (json['ingredients'] as List)
+              .map((value) => IngredientItemDessert.fromJson(value))
               .toList()
-              : [],
-          steps: json['steps'] != null
-              ? (json['steps'] as List)
-              .map((value) =>  RecipeStepDessert.fromJson(value))
+          : [],
+      steps: json['steps'] != null
+          ? (json['steps'] as List)
+              .map((value) => RecipeStepDessert.fromJson(value))
               .toList()
-              : [],
-          preparation: json['preparation'] != null ? PreparationDessert.fromJson(json['preparation']) : PreparationDessert()
-      );
+          : [],
+      preparation: json['preparation'] != null
+          ? PreparationDessert.fromJson(json['preparation'])
+          : PreparationDessert());
 
   Map<String, dynamic> toJson() => {
-    'name': dessertName,
-    'image': dessertImage,
-    'subTitle': subTitle,
-    'description': description,
-  };
+        'name': dessertName,
+        'image': dessertImage,
+        'subTitle': subTitle,
+        'description': description,
+      };
 }
 
 class PreparationDessert {
   final String? temp;
   final String? prepTime;
 
-  PreparationDessert(
-      { this.temp,
-        this.prepTime});
+  PreparationDessert({this.temp, this.prepTime});
 
   factory PreparationDessert.fromJson(Map<String, dynamic> json) =>
       PreparationDessert(
@@ -68,19 +62,17 @@ class PreparationDessert {
       );
 
   Map<String, dynamic> toJson() => {
-    'temp': temp,
-    'prepTime': prepTime,
-  };
+        'temp': temp,
+        'prepTime': prepTime,
+      };
 }
 
 class RecipeStepDessert {
   final int? id;
-  final String step;
+  late final String step;
   final String? description;
 
-  RecipeStepDessert({
-    this.id,
-    required this.step, this.description});
+  RecipeStepDessert({this.id, required this.step, this.description});
 
   factory RecipeStepDessert.fromJson(Map<String, dynamic> json) =>
       RecipeStepDessert(
@@ -89,19 +81,17 @@ class RecipeStepDessert {
       );
 
   Map<String, dynamic> toJson() => {
-    'step': step,
-    'description': description,
-  };
+        'step': step,
+        'description': description,
+      };
 }
 
 class IngredientItemDessert {
   final int? id;
-  final String name;
+  late final String name;
   final String? amount;
 
-  IngredientItemDessert({
-    this.id,
-    required this.name, this.amount});
+  IngredientItemDessert({this.id, required this.name, this.amount});
 
   factory IngredientItemDessert.fromJson(Map<String, dynamic> json) =>
       IngredientItemDessert(
@@ -110,7 +100,7 @@ class IngredientItemDessert {
       );
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'amount': amount,
-  };
+        'name': name,
+        'amount': amount,
+      };
 }

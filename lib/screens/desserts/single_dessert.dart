@@ -5,8 +5,11 @@ import 'package:food_recipe/index.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../models/dessert_item.dart';
+import '../../providers/dessert_provider.dart';
+
 class SingleDessert extends StatelessWidget {
-  final  DessertItem dessertItem;
+  final Dessert dessertItem;
 
   SingleDessert({Key? key, required this.dessertItem}) : super(key: key);
 
@@ -42,7 +45,7 @@ class SingleDessert extends StatelessWidget {
       child: Stack(children: [
         Image(
           width: w,
-          image: NetworkImage(dessertItem.image),
+          image: NetworkImage(dessertItem.data.dessertImage),
           fit: BoxFit.cover,
         ),
         Padding(
@@ -68,6 +71,8 @@ class SingleDessert extends StatelessWidget {
     TextStyle valueSt =
     TextStyle(fontSize: 18 * r, fontWeight: FontWeight.bold, color: kBlack);
 
+    final rpDessertdl = Provider.of<DessertProvider>(context, listen: false);
+
     return GestureDetector(
       onTap: (){
         _panelController.open();
@@ -77,7 +82,7 @@ class SingleDessert extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            rDessertdl.dessertItem == 0 ? firstPageBar() : secondPageBar(),
+            rDessertdl.pageDessert == 0 ? firstPageBar() : secondPageBar(),
             SizedBox(
               height: 20 * r,
             ),
@@ -100,24 +105,36 @@ class SingleDessert extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      dessertItem.name,
+                                      dessertItem.data.dessertName,
                                       style: TextStyle(
                                           fontSize: 26 * r,
                                           fontWeight: FontWeight.bold,
                                           color: kPurple),
                                     ),
-                                    Text(dessertItem.subTitle),
+                                    Text(dessertItem.data.subTitle),
                                   ],
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.edit),
-                                  tooltip: 'Increase volume by 10',
-                                  onPressed: () {  },
+                                  tooltip: 'Edit',
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => UpdateDessert(dessertItem:dessertItem)));
+                                  },
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.delete),
-                                  tooltip: 'Increase volume by 10',
-                                  onPressed: () {  },
+                                  tooltip: 'Delete',
+                                  onPressed: () {
+                                    rpDessertdl.deleteDessert(dessertItem.id);
+                                    Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                    builder: (context) => DessertList()));
+                                    },
+                                  //},
                                 ),
                               ],
                             ),
@@ -139,7 +156,7 @@ class SingleDessert extends StatelessWidget {
                                       children: [
                                         Text("single_recipe.temp".tr(),
                                             style: titleSt),
-                                        Text(dessertItem.preparation.temp ?? "",
+                                        Text(dessertItem.data.preparation.temp ?? "",
                                             style: valueSt),
                                       ],
                                     )),
@@ -150,7 +167,7 @@ class SingleDessert extends StatelessWidget {
                                       children: [
                                         Text("single_recipe.pre_time".tr(),
                                             style: titleSt),
-                                        Text(dessertItem.preparation.prepTime ?? "",
+                                        Text(dessertItem.data.preparation.prepTime ?? "",
                                             style: valueSt),
                                       ],
                                     )),
@@ -163,8 +180,6 @@ class SingleDessert extends StatelessWidget {
                                           "single_recipe.cooking".tr(),
                                           style: titleSt,
                                         ),
-                                        Text(dessertItem.preparation.cookingTime ?? "",
-                                            style: valueSt),
                                       ],
                                     )),
                               ],
@@ -174,7 +189,7 @@ class SingleDessert extends StatelessWidget {
                                 style: titleSt),
                             SizedBox(height: 10 * r),
                             Text(
-                              dessertItem.description ?? "",
+                              dessertItem.data.description ?? "",
                               style: const TextStyle(
                                   color: kBlack,
                                   fontWeight: FontWeight.w600),
@@ -188,20 +203,14 @@ class SingleDessert extends StatelessWidget {
                               height: 20 * r,
                             ),
                             Column(
-                              children: dessertItem.ingredients
-                                  .map((IngredientItem item) {
+                              children: dessertItem.data.ingredients
+                                  .map((IngredientItemDessert item) {
                                 return Padding(
                                   padding: EdgeInsets.only(bottom: 10 * r),
                                   child: Row(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                          child: Padding(
-                                            padding:
-                                            EdgeInsets.only(right: 20 * r),
-                                            child: Text(item.amount),
-                                          )),
                                       Expanded(
                                         flex: 2,
                                         child: Text(item.name),
@@ -225,8 +234,8 @@ class SingleDessert extends StatelessWidget {
                             height: 20 * r,
                           ),
                           Column(
-                            children: dessertItem.steps.map((RecipeStep step) {
-                              int idx = dessertItem.steps.indexOf(step) + 1;
+                            children: dessertItem.data.steps.map((RecipeStepDessert step) {
+                              int idx = dessertItem.data.steps.indexOf(step) + 1;
                               return Padding(
                                   padding: EdgeInsets.all(10 * r),
                                   child: Column(
@@ -256,10 +265,6 @@ class SingleDessert extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        height: 12 * r,
-                                      ),
-                                      Text(step.description)
                                     ],
                                   ));
                             }).toList(),

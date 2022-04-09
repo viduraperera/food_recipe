@@ -1,11 +1,21 @@
+class Dessert{
+  final String id;
+  final DessertItem data;
+
+  Dessert({
+    required this.id,
+    required this.data
+  });
+}
+
 class DessertItem{
   final String dessertName;
   final String dessertImage;
   final String subTitle;
   final String? description;
-  final List<IngredientItem> ingredients;
-  final List<RecipeStep> steps;
-  final Preparation preparation;
+  final List<IngredientItemDessert> ingredients;
+  final List<RecipeStepDessert> steps;
+  final PreparationDessert preparation;
 
   DessertItem({
     required this.dessertName,
@@ -24,15 +34,15 @@ class DessertItem{
           subTitle: json["subTitle"],
           ingredients: json['ingredients'] != null
               ? (json['ingredients'] as List)
-              .map((value) =>  IngredientItem.fromJson(value))
+              .map((value) =>  IngredientItemDessert.fromJson(value))
               .toList()
               : [],
           steps: json['steps'] != null
               ? (json['steps'] as List)
-              .map((value) =>  RecipeStep.fromJson(value))
+              .map((value) =>  RecipeStepDessert.fromJson(value))
               .toList()
               : [],
-          preparation: json['preparation'] != null ? Preparation.fromJson(json['preparation']) : Preparation()
+          preparation: json['preparation'] != null ? PreparationDessert.fromJson(json['preparation']) : PreparationDessert()
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,16 +53,16 @@ class DessertItem{
   };
 }
 
-class Preparation {
+class PreparationDessert {
   final String? temp;
   final String? prepTime;
 
-  Preparation(
+  PreparationDessert(
       { this.temp,
         this.prepTime});
 
-  factory Preparation.fromJson(Map<String, dynamic> json) =>
-      Preparation(
+  factory PreparationDessert.fromJson(Map<String, dynamic> json) =>
+      PreparationDessert(
         temp: json['temp'],
         prepTime: json['prepTime'],
       );
@@ -63,49 +73,44 @@ class Preparation {
   };
 }
 
-class RecipeStep {
-  // final int id;
+class RecipeStepDessert {
+  final int? id;
   final String step;
-  final String description;
+  final String? description;
 
-  RecipeStep({
-    // required this.id,
-    required this.step, required this.description});
+  RecipeStepDessert({
+    this.id,
+    required this.step, this.description});
 
-  factory RecipeStep.fromJson(Map<String, dynamic> json) =>
-      RecipeStep(
-        // id: json['id'],
+  factory RecipeStepDessert.fromJson(Map<String, dynamic> json) =>
+      RecipeStepDessert(
         step: json['step'],
         description: json['description'],
       );
 
   Map<String, dynamic> toJson() => {
-    // 'id': id,
     'step': step,
     'description': description,
   };
 }
 
-class IngredientItem {
-  // final int id;
+class IngredientItemDessert {
+  final int? id;
   final String name;
-  final String amount;
+  final String? amount;
 
-  IngredientItem({
-    // required this.id,
-    required this.name, required this.amount});
+  IngredientItemDessert({
+    this.id,
+    required this.name, this.amount});
 
-  factory IngredientItem.fromJson(Map<String, dynamic> json) =>
-      IngredientItem(
+  factory IngredientItemDessert.fromJson(Map<String, dynamic> json) =>
+      IngredientItemDessert(
         name: json['name'],
-        // id: json['id'],
         amount: json['amount'],
-
       );
 
   Map<String, dynamic> toJson() => {
     'name': name,
-    // 'id': id,
     'amount': amount,
   };
 }

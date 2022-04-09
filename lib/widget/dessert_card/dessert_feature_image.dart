@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
 
+import '../../models/dessert_item.dart';
+
 class FeatureImageDessert extends StatelessWidget {
   final DessertItem item;
   const FeatureImageDessert({Key? key, required this.item}) : super(key: key);
@@ -35,7 +37,7 @@ class FeatureImageDessert extends StatelessWidget {
               ),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: Image.memory(base64Decode(item.image), fit: BoxFit.cover)
+                  child: Image.memory(base64Decode(item.dessertImage), fit: BoxFit.cover)
               ),
             ),
             Padding(
@@ -49,7 +51,7 @@ class FeatureImageDessert extends StatelessWidget {
                           fontSize: 15 * r,
                           fontWeight: FontWeight.bold)),
                   Text(
-                    item.name,
+                    item.dessertName,
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 24 * r,

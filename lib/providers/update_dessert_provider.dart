@@ -7,12 +7,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:food_recipe/index.dart';
 import 'package:path/path.dart';
 
+import '../models/dessert_item.dart';
+
 class UpdateDessertProvider with ChangeNotifier{
   late File imageFile;
   String? downloadURL;
   bool imageUpdated = false;
 
-  pickMealImage(image){
+  pickDessertImage(image){
     imageFile = image;
     imageUpdated = true;
     notifyListeners();
@@ -41,28 +43,28 @@ class UpdateDessertProvider with ChangeNotifier{
               .getDownloadURL();
 
           DessertItem dessertItem = DessertItem(
-              name: name,
-              image: downloadURL!,
+              dessertName: name,
+              dessertImage: downloadURL!,
               subTitle: sub,
               ingredients: ing,
               description: des,
               steps: stp,
               preparation:
-              Preparation(temp: temp, prepTime: pre));
+              PreparationDessert(temp: temp, prepTime: pre));
           saveDessertItem(dessertItem, id);
 
           print(downloadURL);
         });
       }else{
         DessertItem dessertItem = DessertItem(
-            name: name,
-            image: img,
+            dessertName: name,
+            dessertImage: img,
             subTitle: sub,
             ingredients: ing,
             description: des,
             steps: stp,
             preparation:
-            Preparation(temp: temp, prepTime: pre));
+            PreparationDessert(temp: temp, prepTime: pre));
         saveDessertItem(dessertItem, id);
       }
 
@@ -72,22 +74,22 @@ class UpdateDessertProvider with ChangeNotifier{
     }
   }
 
-  Future<void> saveMealItem(DessertItem item, id){
-    CollectionReference meal = FirebaseFirestore.instance.collection('dessert');
+  Future<void> saveDessertItem(DessertItem item, id){
+    CollectionReference dessert = FirebaseFirestore.instance.collection('dessert');
     List ingList = [];
     List stpList = [];
 
     print(id);
 
-    for(RecipeStep ing in item.steps){
+    for(RecipeStepDessert ing in item.steps){
       stpList.add({
-        "step" : ing.step
+        'step': ing.step
       });
     }
 
-    for(IngredientItem ing in item.ingredients){
+    for(IngredientItemDessert ing in item.ingredients){
       ingList.add({
-        "name" : ing.name
+        'name' : ing.name
       });
     }
 
@@ -97,8 +99,8 @@ class UpdateDessertProvider with ChangeNotifier{
     };
     return dessert.doc(id).update
       ({
-      'name':item.name,
-      'image':item.image,
+      'dessertName':item.dessertName,
+      'dessertImage':item.dessertImage,
       'subTitle': item.subTitle,
       'description' : item.description,
       'ingredients': ingList,

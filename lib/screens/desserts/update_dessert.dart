@@ -2,9 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
-import 'package:food_recipe/screens/meal/update_dessert_image.dart';
+import 'package:food_recipe/screens/desserts/update_dessert_image.dart';
 import 'package:provider/provider.dart';
 import '../../global/app_colors.dart';
+import '../../models/dessert_item.dart';
+import '../../providers/dessert_provider.dart';
+import '../../providers/update_dessert_provider.dart';
 
 class UpdateDessert extends StatefulWidget {
 
@@ -16,11 +19,11 @@ class UpdateDessert extends StatefulWidget {
 }
 
 class _UpdateDessertState extends State<UpdateDessert> {
-  final TextEditingController titleControllerDesserts = TextEditingController();
-  final TextEditingController detailControllerDesserts = TextEditingController();
-  final TextEditingController commentControllerDesserts = TextEditingController();
-  final TextEditingController tempControllerDesserts = TextEditingController();
-  final TextEditingController prepTimeControllerDesserts = TextEditingController();
+  final TextEditingController titleControllerDessert = TextEditingController();
+  final TextEditingController detailControllerDessert = TextEditingController();
+  final TextEditingController commentControllerDessert = TextEditingController();
+  final TextEditingController tempControllerDessert = TextEditingController();
+  final TextEditingController prepTimeControllerDessert = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   List<Widget> ingInput = [];
@@ -141,19 +144,19 @@ class _UpdateDessertState extends State<UpdateDessert> {
   }
 
   setInitialValues(){
-    titleControllerDesserts.text = widget.dessertItem.data.name;
-    commentControllerDesserts.text = widget.dessertItem.data.subTitle;
-    detailControllerDesserts.text = widget.dessertItem.data.description!;
-    tempControllerDesserts.text = widget.dessertItem.data.preparation.temp!;
-    prepTimeControllerDesserts.text = widget.dessertItem.data.preparation.prepTime!;
+    titleControllerDessert.text = widget.dessertItem.data.dessertName;
+    commentControllerDessert.text = widget.dessertItem.data.subTitle;
+    detailControllerDessert.text = widget.dessertItem.data.description!;
+    tempControllerDessert.text = widget.dessertItem.data.preparation.temp!;
+    prepTimeControllerDessert.text = widget.dessertItem.data.preparation.prepTime!;
 
-    for(IngredientItem a in widget.dessertItem.data.ingredients){
+    for(IngredientItemDessert a in widget.dessertItem.data.ingredients){
       ingInput.add(inputField(
           id: ingIndex, initialVal: a.name));
       ingIndex = ingIndex + 1;
     }
 
-    for(RecipeStep a in widget.dessertItem.data.steps){
+    for(RecipeStepDessert a in widget.dessertItem.data.steps){
       stpInput.add(stepsField(
           id: stpIndex, initialVal: a.step));
       stpIndex = stpIndex + 1;
@@ -165,12 +168,12 @@ class _UpdateDessertState extends State<UpdateDessert> {
   Widget build(BuildContext context) {
     final rpDessertdl = Provider.of<DessertProvider>(context, listen: false);
     // final addMdl = Provider.of<AddMealProvider>(context, listen: false);
-    final updateMdl = Provider.of<UpdateDessertProvider>(context, listen: false);
+    final updateDessertdl = Provider.of<UpdateDessertProvider>(context, listen: false);
     double r = UIManager.ratio;
 
     InputField titleField = InputField(
       hint: 'single_recipe.name'.tr(),
-      controller: titleControllerDesserts,
+      controller: titleControllerDessert,
       onChanged: (val) {
         print(val);
       },
@@ -179,24 +182,24 @@ class _UpdateDessertState extends State<UpdateDessert> {
     InputField commentField = InputField(
       hint: 'single_recipe.short_des'.tr(),
       // maxLength: 2,
-      controller: commentControllerDesserts,
+      controller: commentControllerDessert,
     );
 
     InputField detailField = InputField(
         hint: 'single_recipe.description'.tr(),
         maxLength: null,
         type: TextInputType.multiline,
-        controller: detailControllerDesserts,
+        controller: detailControllerDessert,
         isMulti: true);
 
     InputField tempField = InputField(
       hint: 'single_recipe.temp'.tr(),
-      controller: tempControllerDesserts,
+      controller: tempControllerDessert,
     );
 
     InputField prepTimeField = InputField(
       hint: 'single_recipe.prepare_time'.tr(),
-      controller: prepTimeControllerDesserts,
+      controller: prepTimeControllerDessert,
     );
 
     return Scaffold(
@@ -207,7 +210,7 @@ class _UpdateDessertState extends State<UpdateDessert> {
             SizedBox(
               height: 30 * r,
             ),
-            UpdateDessertImage(image: widget.dessertItem.data.image),
+            UpdateDessertImage(image: widget.dessertItem.data.dessertImage),
             Container(
               padding: EdgeInsets.all(10 * r),
               child: Form(
@@ -258,7 +261,6 @@ class _UpdateDessertState extends State<UpdateDessert> {
                             Container(
                               width: 16,
                             ),
-                            Expanded(child: cookTimeField),
                           ],
                         ),
                         Padding(
@@ -308,24 +310,24 @@ class _UpdateDessertState extends State<UpdateDessert> {
             setState(() {
               //   // validate = true;
             });
-            print(titleControllerDesserts.text);
+            print(titleControllerDessert.text);
             formKey.currentState!.save();
             if (formKey.currentState!.validate()) {
-              await updateMdl.updateImageToFirebase(context: context,
-                  name: titleControllerDesserts.text,
-                  sub: commentControllerDesserts.text,
+              await updateDessertdl.updateImageToFirebase(context: context,
+                  name: titleControllerDessert.text,
+                  sub: commentControllerDessert.text,
                   ing: ingredients,
-                  des: detailControllerDesserts.text,
+                  des: detailControllerDessert.text,
                   stp: recipeSteps,
-                  temp: tempControllerDesserts.text,
-                  pre: prepTimeControllerDesserts.text,
+                  temp: tempControllerDessert.text,
+                  pre: prepTimeControllerDessert.text,
                   id: widget.dessertItem.id,
-                  img: widget.dessertItem.data.image
+                  img: widget.dessertItem.data.dessertImage
               );
               rpDessertdl.loadAllDesserts();
             }
             final snackBar = SnackBar(
-              content: const Text('Your Meal is Updated'),
+              content: const Text('Your dessert recipe is updated'),
               action: SnackBarAction(
                 label: '',
                 onPressed: () {

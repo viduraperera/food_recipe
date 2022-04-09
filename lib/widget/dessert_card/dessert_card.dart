@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
 
+import '../../models/dessert_item.dart';
+
 class DessertCard extends StatelessWidget {
-  final DessertItem item;
+  final Dessert item;
   const DessertCard({Key? key, required this.item}) : super(key: key);
 
   @override
@@ -28,7 +30,7 @@ class DessertCard extends StatelessWidget {
               padding: EdgeInsets.only(
                   left: 18 * r, right: 18 * r, top: 12 * r, bottom: 10 * r),
               child: Image(
-                image: NetworkImage(item.image),
+                image: NetworkImage(item.data.dessertImage),
                 fit: BoxFit.cover,
               ),
             ),
@@ -38,14 +40,14 @@ class DessertCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    item.name,
+                    item.data.dessertName,
                     style: TextStyle(
                         color: kGrey1,
                         fontWeight: FontWeight.bold,
                         fontSize: 20 * r),
                   ),
                   Text(
-                    item.subTitle,
+                    item.data.subTitle,
                     style: const TextStyle(
                       color: Colors.grey,
                     ),

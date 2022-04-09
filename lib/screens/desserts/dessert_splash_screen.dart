@@ -21,7 +21,7 @@ class _DessertSplashScreenState extends State<DessertSplashScreen> {
     Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (BuildContext context) => MealList()),
+          MaterialPageRoute(builder: (BuildContext context) => DessertList()),
               (r) => false);
     });
   }

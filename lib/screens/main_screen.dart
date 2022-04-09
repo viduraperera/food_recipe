@@ -48,7 +48,7 @@ class MainScreen extends StatelessWidget {
                   if (index == 1) {
                     widget = BakedSplashScreen();
                   } else if (index == 2) {
-                    widget = Container();
+                    widget = DessertSplashScreen();
                   }
                   return mealImage(singleImage, index, context, widget);
                 },

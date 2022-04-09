@@ -32,6 +32,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
   List<BakingIngredient> ingredients = [];
   int ingIndex = 0;
   int stpIndex = 0;
+  bool isLoading = false;
 
   Widget inputField({label, id, initialVal}) {
     BakingIngredient ing;
@@ -161,18 +162,22 @@ class _EditBakedItemState extends State<EditBakedItem> {
   @override
   Widget build(BuildContext context) {
     final rpMdl = Provider.of<BakedItemProvider>(context, listen: false);
-    // final addMdl = Provider.of<AddMealProvider>(context, listen: false);
     final updateMdl =
         Provider.of<UpdateBakeItemProvider>(context, listen: false);
     double r = UIManager.ratio;
+
+    validate(value, msg) {
+      if (value == null || value.isEmpty) {
+        return '$msg is Required';
+      }
+      return null;
+    }
 
     InputField titleField = InputField(
       hint: 'baked_item.name'.tr(),
       label: 'baked_item.name'.tr(),
       controller: titleController,
-      onChanged: (val) {
-        // print(val);
-      },
+      validator: (value) => validate(value, 'baked_item.name'.tr()),
     );
 
     InputField descriptionField = InputField(
@@ -181,30 +186,36 @@ class _EditBakedItemState extends State<EditBakedItem> {
         maxLength: null,
         type: TextInputType.multiline,
         controller: descriptionController,
+        validator: (value) => validate(value, 'baked_item.description'.tr()),
         isMulti: true);
 
     InputField restTemperatureField = InputField(
       hint: 'baked_item.restTemperature'.tr(),
       label: 'baked_item.restTemperature'.tr(),
       controller: restTemperatureController,
+      validator: (value) => validate(value, 'baked_item.restTemperature'.tr()),
     );
 
     InputField cookingTimeField = InputField(
       hint: 'baked_item.cookingTime'.tr(),
       label: 'baked_item.cookingTime'.tr(),
       controller: cookingTimeController,
+      validator: (value) => validate(value, 'baked_item.cookingTime'.tr()),
     );
 
     InputField cookingTemperatureField = InputField(
       hint: 'baked_item.cookingTemperature'.tr(),
       label: 'baked_item.cookingTemperature'.tr(),
       controller: cookingTemperatureController,
+      validator: (value) =>
+          validate(value, 'baked_item.cookingTemperature'.tr()),
     );
 
     InputField restTimeField = InputField(
       hint: 'baked_item.restTime'.tr(),
       label: 'baked_item.restTime'.tr(),
       controller: restTimeController,
+      validator: (value) => validate(value, 'baked_item.restTime'.tr()),
     );
 
     return Scaffold(
@@ -322,15 +333,18 @@ class _EditBakedItemState extends State<EditBakedItem> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
+          isLoading: isLoading,
           title: 'update'.tr(),
           onTap: () async {
             setState(() {
               //   // validate = true;
             });
+
             // print(titleController.text);
             formKey.currentState!.save();
             if (formKey.currentState!.validate()) {
               try {
+                this.isLoading = true;
                 final snackBar = SnackBar(
                   content: const Text(
                       'Your Baked Item is being Updated. Please wait..'),
@@ -355,6 +369,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     id: widget.bakedItem.id,
                     img: widget.bakedItem.data.image);
                 await rpMdl.loadAllMeal();
+                this.isLoading = false;
                 ScaffoldMessenger.of(context).clearSnackBars();
                 final updatedSnackBar = SnackBar(
                   content: const Text('Your Baked Item is Updated'),
@@ -369,6 +384,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => BakedItemList()));
               } catch (e) {
+                this.isLoading = false;
                 final snackBar = SnackBar(
                   content: const Text('An Error Occurred'),
                   action: SnackBarAction(

@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
+import 'package:food_recipe/providers/add_dessert_provider.dart';
+import 'package:food_recipe/providers/dessert_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddNewDessert extends StatefulWidget {
@@ -14,9 +16,11 @@ class AddNewDessert extends StatefulWidget {
 class _AddNewDessertState extends State<AddNewDessert> {
   final TextEditingController titleControllerDesserts = TextEditingController();
   final TextEditingController detailControllerDessert = TextEditingController();
-  final TextEditingController commentControllerDessert = TextEditingController();
+  final TextEditingController commentControllerDessert =
+      TextEditingController();
   final TextEditingController tempControllerDessert = TextEditingController();
-  final TextEditingController prepTimeControllerDessert = TextEditingController();
+  final TextEditingController prepTimeControllerDessert =
+      TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   List<Widget> ingInput = [];
@@ -241,6 +245,7 @@ class _AddNewDessertState extends State<AddNewDessert> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
+            isLoading: false,
             title: 'submit'.tr(),
             onTap: () async {
               setState(() {
@@ -249,15 +254,15 @@ class _AddNewDessertState extends State<AddNewDessert> {
               print(titleControllerDesserts.text);
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
-                await addDesserts.uploadImageToFirebase(context: context,
+                await addDesserts.uploadImageToFirebase(
+                    context: context,
                     name: titleControllerDesserts.text,
                     sub: commentControllerDessert.text,
                     ing: ingredients,
                     des: detailControllerDessert.text,
                     stp: recipeSteps,
                     temp: tempControllerDessert.text,
-                    pre: prepTimeControllerDessert.text
-                );
+                    pre: prepTimeControllerDessert.text);
                 rpDessertdl.loadAllDesserts();
               }
             }),

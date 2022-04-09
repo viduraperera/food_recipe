@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final Color color;
   final Color tColor;
   final double? font;
+  final bool isLoading;
 
   const CustomButton({
     Key? key,
@@ -16,6 +17,7 @@ class CustomButton extends StatelessWidget {
     this.color = kPurple,
     this.tColor = Colors.white,
     this.font,
+    required this.isLoading,
   }) : super(key: key);
 
   @override
@@ -30,14 +32,16 @@ class CustomButton extends StatelessWidget {
           onTap: onTap,
           child: Container(
             alignment: Alignment.center,
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: font ?? 18 * r,
-                  color: tColor,
-                  fontWeight: FontWeight.w600),
-            ),
+            child: this.isLoading
+                ? CircularProgressIndicator()
+                : Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: font ?? 18 * r,
+                        color: tColor,
+                        fontWeight: FontWeight.w600),
+                  ),
           ),
         ));
   }

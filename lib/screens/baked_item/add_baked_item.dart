@@ -127,11 +127,18 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
     final addMdl = Provider.of<AddBakedItemProvider>(context, listen: false);
     double r = UIManager.ratio;
 
+    validate(value, msg) {
+      if (value == null || value.isEmpty) {
+        return '$msg is Required';
+      }
+      return null;
+    }
+
     InputField titleField = InputField(
       hint: 'baked_item.name'.tr(),
       label: 'baked_item.name'.tr(),
       controller: titleController,
-      onChanged: (val) {},
+      validator: (value) => validate(value, 'baked_item.name'.tr()),
     );
 
     InputField descriptionField = InputField(
@@ -140,30 +147,36 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
         maxLength: null,
         type: TextInputType.multiline,
         controller: descriptionController,
+        validator: (value) => validate(value, 'baked_item.description'.tr()),
         isMulti: true);
 
     InputField restTemperatureField = InputField(
       hint: 'baked_item.restTemperature'.tr(),
       label: 'baked_item.restTemperature'.tr(),
       controller: restTemperatureController,
+      validator: (value) => validate(value, 'baked_item.restTemperature'.tr()),
     );
 
     InputField restTimeField = InputField(
       hint: 'baked_item.restTime'.tr(),
       label: 'baked_item.restTime'.tr(),
       controller: restTimeController,
+      validator: (value) => validate(value, 'baked_item.restTime'.tr()),
     );
 
     InputField cookingTimeField = InputField(
       hint: 'baked_item.cookingTime'.tr(),
       label: 'baked_item.cookingTime'.tr(),
       controller: cookingTimeController,
+      validator: (value) => validate(value, 'baked_item.cookingTime'.tr()),
     );
 
     InputField cookingTemperatureField = InputField(
       hint: 'baked_item.cookingTemperature'.tr(),
       label: 'baked_item.cookingTemperature'.tr(),
       controller: cookingTemperatureController,
+      validator: (value) =>
+          validate(value, 'baked_item.cookingTemperature'.tr()),
     );
 
     return Scaffold(
@@ -280,16 +293,17 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
+            isLoading: isLoading,
             title: 'submit'.tr(),
             onTap: () async {
               setState(() {
-                isLoading = true;
                 //   // validate = true;
               });
 
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
                 try {
+                  this.isLoading = true;
                   final snackBar = SnackBar(
                     content: const Text(
                         'Your Baked Item is being saved. Please wait..'),
@@ -312,6 +326,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                       ingredients: bakingIngredient,
                       steps: bakingStep);
                   await rpMdl.loadAllMeal();
+                  this.isLoading = false;
                   ScaffoldMessenger.of(context).clearSnackBars();
                   isLoading = false;
                   final savedSnackBar = SnackBar(
@@ -327,6 +342,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => BakedItemList()));
                 } catch (e) {
+                  this.isLoading = false;
                   final snackBar = SnackBar(
                     content: const Text('An Error Occurred'),
                     action: SnackBarAction(

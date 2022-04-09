@@ -1,6 +1,7 @@
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
+import 'package:food_recipe/models/dessert_item.dart';
 
 class DessertCard extends StatelessWidget {
   final DessertItem item;
@@ -11,7 +12,6 @@ class DessertCard extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     double r = UIManager.ratio;
-
 
     return GestureDetector(
       child: Card(
@@ -28,7 +28,7 @@ class DessertCard extends StatelessWidget {
               padding: EdgeInsets.only(
                   left: 18 * r, right: 18 * r, top: 12 * r, bottom: 10 * r),
               child: Image(
-                image: NetworkImage(item.image),
+                image: NetworkImage(item.dessertImage),
                 fit: BoxFit.cover,
               ),
             ),
@@ -38,7 +38,7 @@ class DessertCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    item.name,
+                    item.dessertName,
                     style: TextStyle(
                         color: kGrey1,
                         fontWeight: FontWeight.bold,
@@ -50,7 +50,6 @@ class DessertCard extends StatelessWidget {
                       color: Colors.grey,
                     ),
                   ),
-
                 ],
               ),
             ),

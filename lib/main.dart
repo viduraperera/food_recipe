@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_recipe/index.dart';
+import 'package:food_recipe/providers/add_dessert_provider.dart';
+import 'package:food_recipe/providers/dessert_provider.dart';
+import 'package:food_recipe/providers/update_dessert_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -70,7 +73,8 @@ List<SingleChildWidget> providers = [
   //initializing the providers in the main
   ChangeNotifierProvider<MealProvider>(create: (_) => MealProvider()),
   ChangeNotifierProvider<AddMealProvider>(create: (_) => AddMealProvider()),
-  ChangeNotifierProvider<UpdateMealProvider>(create: (_) => UpdateMealProvider()),
+  ChangeNotifierProvider<UpdateMealProvider>(
+      create: (_) => UpdateMealProvider()),
 
   ChangeNotifierProvider<UpdateMealProvider>(
       create: (_) => UpdateMealProvider()),
@@ -80,8 +84,10 @@ List<SingleChildWidget> providers = [
   ChangeNotifierProvider<UpdateBakeItemProvider>(
       create: (_) => UpdateBakeItemProvider()),
 
-   //Desserts
+  //Desserts
   ChangeNotifierProvider<DessertProvider>(create: (_) => DessertProvider()),
-  ChangeNotifierProvider<AddDessertProvider>(create: (_) => AddDessertProvider()),
-  ChangeNotifierProvider<UpdateDessertProvider>(create: (_) => UpdateDessertProvider()),
+  ChangeNotifierProvider<AddDessertProvider>(
+      create: (_) => AddDessertProvider()),
+  ChangeNotifierProvider<UpdateDessertProvider>(
+      create: (_) => UpdateDessertProvider()),
 ];

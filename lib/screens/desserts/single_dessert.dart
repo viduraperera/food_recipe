@@ -2,11 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
+import 'package:food_recipe/models/dessert_item.dart';
+import 'package:food_recipe/providers/dessert_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SingleDessert extends StatelessWidget {
-  final  DessertItem dessertItem;
+  final DessertItem dessertItem;
 
   SingleDessert({Key? key, required this.dessertItem}) : super(key: key);
 
@@ -32,44 +34,48 @@ class SingleDessert extends StatelessWidget {
       ),
     );
   }
+
   Widget getBody(
       {required BuildContext context,
-        required double h,
-        required double w,
-        required double r}){
+      required double h,
+      required double w,
+      required double r}) {
     return Container(
       alignment: Alignment.topLeft,
-      child: Stack(children: [
-        Image(
-          width: w,
-          image: NetworkImage(dessertItem.image),
-          fit: BoxFit.cover,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
-          child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                size: 30 * r,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-        )
-      ],),
+      child: Stack(
+        children: [
+          Image(
+            width: w,
+            image: NetworkImage(dessertItem.dessertImage),
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
+            child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 30 * r,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+          )
+        ],
+      ),
     );
   }
+
   Widget getPanel(
-      {required BuildContext context, required double h, required double r}){
+      {required BuildContext context, required double h, required double r}) {
     final rDessertdl = Provider.of<DessertProvider>(context);
     final PageController controller = PageController(initialPage: 0);
     TextStyle titleSt =
-    TextStyle(fontSize: 16 * r, fontWeight: FontWeight.bold, color: kGrey);
+        TextStyle(fontSize: 16 * r, fontWeight: FontWeight.bold, color: kGrey);
     TextStyle valueSt =
-    TextStyle(fontSize: 18 * r, fontWeight: FontWeight.bold, color: kBlack);
+        TextStyle(fontSize: 18 * r, fontWeight: FontWeight.bold, color: kBlack);
 
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         _panelController.open();
       },
       child: Padding(
@@ -77,7 +83,9 @@ class SingleDessert extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            rDessertdl.dessertItem == 0 ? firstPageBar() : secondPageBar(),
+            rDessertdl.pageDessert == 0
+                ? firstPageBarForDesert()
+                : secondPageBarForDesert(),
             SizedBox(
               height: 20 * r,
             ),
@@ -100,7 +108,7 @@ class SingleDessert extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      dessertItem.name,
+                                      dessertItem.dessertName,
                                       style: TextStyle(
                                           fontSize: 26 * r,
                                           fontWeight: FontWeight.bold,
@@ -112,12 +120,12 @@ class SingleDessert extends StatelessWidget {
                                 IconButton(
                                   icon: const Icon(Icons.edit),
                                   tooltip: 'Increase volume by 10',
-                                  onPressed: () {  },
+                                  onPressed: () {},
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.delete),
                                   tooltip: 'Increase volume by 10',
-                                  onPressed: () {  },
+                                  onPressed: () {},
                                 ),
                               ],
                             ),
@@ -134,39 +142,38 @@ class SingleDessert extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text("single_recipe.temp".tr(),
-                                            style: titleSt),
-                                        Text(dessertItem.preparation.temp ?? "",
-                                            style: valueSt),
-                                      ],
-                                    )),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("single_recipe.temp".tr(),
+                                        style: titleSt),
+                                    Text(dessertItem.preparation.temp ?? "",
+                                        style: valueSt),
+                                  ],
+                                )),
                                 Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text("single_recipe.pre_time".tr(),
-                                            style: titleSt),
-                                        Text(dessertItem.preparation.prepTime ?? "",
-                                            style: valueSt),
-                                      ],
-                                    )),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("single_recipe.pre_time".tr(),
+                                        style: titleSt),
+                                    Text(dessertItem.preparation.prepTime ?? "",
+                                        style: valueSt),
+                                  ],
+                                )),
                                 Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "single_recipe.cooking".tr(),
-                                          style: titleSt,
-                                        ),
-                                        Text(dessertItem.preparation.cookingTime ?? "",
-                                            style: valueSt),
-                                      ],
-                                    )),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "single_recipe.cooking".tr(),
+                                      style: titleSt,
+                                    ),
+                                    Text(
+                                        dessertItem.preparation.cookingTime ??
+                                            "",
+                                        style: valueSt),
+                                  ],
+                                )),
                               ],
                             ),
                             SizedBox(height: 20 * r),
@@ -176,8 +183,7 @@ class SingleDessert extends StatelessWidget {
                             Text(
                               dessertItem.description ?? "",
                               style: const TextStyle(
-                                  color: kBlack,
-                                  fontWeight: FontWeight.w600),
+                                  color: kBlack, fontWeight: FontWeight.w600),
                             ),
                             SizedBox(
                               height: 20 * r,
@@ -194,14 +200,13 @@ class SingleDessert extends StatelessWidget {
                                   padding: EdgeInsets.only(bottom: 10 * r),
                                   child: Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                           child: Padding(
-                                            padding:
-                                            EdgeInsets.only(right: 20 * r),
-                                            child: Text(item.amount),
-                                          )),
+                                        padding: EdgeInsets.only(right: 20 * r),
+                                        child: Text(item.amount!),
+                                      )),
                                       Expanded(
                                         flex: 2,
                                         child: Text(item.name),
@@ -218,54 +223,52 @@ class SingleDessert extends StatelessWidget {
                   ),
                   SingleChildScrollView(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("single_recipe.steps".tr(), style: titleSt),
-                          SizedBox(
-                            height: 20 * r,
-                          ),
-                          Column(
-                            children: dessertItem.steps.map((RecipeStep step) {
-                              int idx = dessertItem.steps.indexOf(step) + 1;
-                              return Padding(
-                                  padding: EdgeInsets.all(10 * r),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("single_recipe.steps".tr(), style: titleSt),
+                      SizedBox(
+                        height: 20 * r,
+                      ),
+                      Column(
+                        children: dessertItem.steps.map((RecipeStep step) {
+                          int idx = dessertItem.steps.indexOf(step) + 1;
+                          return Padding(
+                              padding: EdgeInsets.all(10 * r),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                              flex: 0,
-                                              child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right: 20 * r),
-                                                  child: CircleAvatar(
-                                                    backgroundColor: kPurple,
-                                                    child: Text(
-                                                        idx.toString()),
-                                                  ))),
-                                          Expanded(
-                                            child: Text(
-                                              step.step,
-                                              style: TextStyle(
-                                                  fontSize: 18 * r,
-                                                  color: kPurple,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
+                                      Expanded(
+                                          flex: 0,
+                                          child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: 20 * r),
+                                              child: CircleAvatar(
+                                                backgroundColor: kPurple,
+                                                child: Text(idx.toString()),
+                                              ))),
+                                      Expanded(
+                                        child: Text(
+                                          step.step,
+                                          style: TextStyle(
+                                              fontSize: 18 * r,
+                                              color: kPurple,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
-                                      SizedBox(
-                                        height: 12 * r,
-                                      ),
-                                      Text(step.description)
                                     ],
-                                  ));
-                            }).toList(),
-                          )
-                        ],
-                      ))
+                                  ),
+                                  SizedBox(
+                                    height: 12 * r,
+                                  ),
+                                  Text(step.description!)
+                                ],
+                              ));
+                        }).toList(),
+                      )
+                    ],
+                  ))
                 ],
               ),
             ),
@@ -276,7 +279,7 @@ class SingleDessert extends StatelessWidget {
   }
 }
 
-Widget firstPageBar() {
+Widget firstPageBarForDesert() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -300,7 +303,7 @@ Widget firstPageBar() {
   );
 }
 
-Widget secondPageBar() {
+Widget secondPageBarForDesert() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [

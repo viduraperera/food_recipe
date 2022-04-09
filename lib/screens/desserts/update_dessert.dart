@@ -2,14 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
-import 'package:food_recipe/screens/meal/update_dessert_image.dart';
+import 'package:food_recipe/models/dessert_item.dart';
+import 'package:food_recipe/providers/dessert_provider.dart';
+import 'package:food_recipe/providers/update_dessert_provider.dart';
+// import 'package:food_recipe/screens/meal/update_dessert_image.dart';
 import 'package:provider/provider.dart';
 import '../../global/app_colors.dart';
 
 class UpdateDessert extends StatefulWidget {
-
-  final Dessert dessertItem;
-  const UpdateDessert({Key? key,  required this.dessertItem}) : super(key: key);
+  final DessertItem dessertItem;
+  const UpdateDessert({Key? key, required this.dessertItem}) : super(key: key);
 
   @override
   State<UpdateDessert> createState() => _UpdateDessertState();
@@ -17,10 +19,13 @@ class UpdateDessert extends StatefulWidget {
 
 class _UpdateDessertState extends State<UpdateDessert> {
   final TextEditingController titleControllerDesserts = TextEditingController();
-  final TextEditingController detailControllerDesserts = TextEditingController();
-  final TextEditingController commentControllerDesserts = TextEditingController();
+  final TextEditingController detailControllerDesserts =
+      TextEditingController();
+  final TextEditingController commentControllerDesserts =
+      TextEditingController();
   final TextEditingController tempControllerDesserts = TextEditingController();
-  final TextEditingController prepTimeControllerDesserts = TextEditingController();
+  final TextEditingController prepTimeControllerDesserts =
+      TextEditingController();
 
   final formKey = GlobalKey<FormState>();
   List<Widget> ingInput = [];
@@ -33,13 +38,12 @@ class _UpdateDessertState extends State<UpdateDessert> {
   Widget inputField({label, id, initialVal}) {
     IngredientItem ing;
     final _ctrl = TextEditingController();
-    if(initialVal != null){
+    if (initialVal != null) {
       _ctrl.text = initialVal;
-      ing = IngredientItem(id:id, name: initialVal);
+      ing = IngredientItem(id: id, name: initialVal);
       ingredients.add(ing);
-    }
-    else{
-      ing = IngredientItem(id:id, name: "");
+    } else {
+      ing = IngredientItem(id: id, name: "");
       ingredients.add(ing);
     }
 
@@ -55,8 +59,8 @@ class _UpdateDessertState extends State<UpdateDessert> {
                   key: Key(id.toString()),
                   onChanged: (String value) {
                     // changeInputValue(value, id);
-                    for(IngredientItem i in ingredients){
-                      if(i.id == ing.id){
+                    for (IngredientItem i in ingredients) {
+                      if (i.id == ing.id) {
                         i.name = value;
                       }
                     }
@@ -71,8 +75,8 @@ class _UpdateDessertState extends State<UpdateDessert> {
                           print(id);
                           setState(() {
                             ingInput.removeAt(id);
-                            ingredients.removeWhere((item) => item.id == ing.id);
-
+                            ingredients
+                                .removeWhere((item) => item.id == ing.id);
                           });
                         }),
                     hintText: label ?? "",
@@ -86,16 +90,13 @@ class _UpdateDessertState extends State<UpdateDessert> {
     final _ctrl = TextEditingController();
     RecipeStep stp;
     // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
-    if(initialVal != null){
+    if (initialVal != null) {
       _ctrl.text = initialVal;
-      stp = RecipeStep(id:id, step: initialVal);
+      stp = RecipeStep(id: id, step: initialVal);
       recipeSteps.add(stp);
-
-    }
-    else{
-      stp = RecipeStep(id:id, step: "");
+    } else {
+      stp = RecipeStep(id: id, step: "");
       recipeSteps.add(stp);
-
     }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,8 +108,8 @@ class _UpdateDessertState extends State<UpdateDessert> {
                   key: Key(id.toString()),
                   onChanged: (String value) {
                     // changeInputValue(value, id);
-                    for(RecipeStep i in recipeSteps){
-                      if(i.id == stp.id){
+                    for (RecipeStep i in recipeSteps) {
+                      if (i.id == stp.id) {
                         i.step = value;
                       }
                     }
@@ -123,8 +124,8 @@ class _UpdateDessertState extends State<UpdateDessert> {
                           print(id);
                           setState(() {
                             stpInput.removeAt(id);
-                            recipeSteps.removeWhere((item) => item.id == stp.id);
-
+                            recipeSteps
+                                .removeWhere((item) => item.id == stp.id);
                           });
                         }),
                     hintText: label,
@@ -140,32 +141,30 @@ class _UpdateDessertState extends State<UpdateDessert> {
     setInitialValues();
   }
 
-  setInitialValues(){
-    titleControllerDesserts.text = widget.dessertItem.data.name;
-    commentControllerDesserts.text = widget.dessertItem.data.subTitle;
-    detailControllerDesserts.text = widget.dessertItem.data.description!;
-    tempControllerDesserts.text = widget.dessertItem.data.preparation.temp!;
-    prepTimeControllerDesserts.text = widget.dessertItem.data.preparation.prepTime!;
+  setInitialValues() {
+    titleControllerDesserts.text = widget.dessertItem.dessertName;
+    commentControllerDesserts.text = widget.dessertItem.subTitle;
+    detailControllerDesserts.text = widget.dessertItem.description!;
+    tempControllerDesserts.text = widget.dessertItem.preparation.temp!;
+    prepTimeControllerDesserts.text = widget.dessertItem.preparation.prepTime!;
 
-    for(IngredientItem a in widget.dessertItem.data.ingredients){
-      ingInput.add(inputField(
-          id: ingIndex, initialVal: a.name));
+    for (IngredientItem a in widget.dessertItem.ingredients) {
+      ingInput.add(inputField(id: ingIndex, initialVal: a.name));
       ingIndex = ingIndex + 1;
     }
 
-    for(RecipeStep a in widget.dessertItem.data.steps){
-      stpInput.add(stepsField(
-          id: stpIndex, initialVal: a.step));
+    for (RecipeStep a in widget.dessertItem.steps) {
+      stpInput.add(stepsField(id: stpIndex, initialVal: a.step));
       stpIndex = stpIndex + 1;
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     final rpDessertdl = Provider.of<DessertProvider>(context, listen: false);
     // final addMdl = Provider.of<AddMealProvider>(context, listen: false);
-    final updateMdl = Provider.of<UpdateDessertProvider>(context, listen: false);
+    final updateMdl =
+        Provider.of<UpdateDessertProvider>(context, listen: false);
     double r = UIManager.ratio;
 
     InputField titleField = InputField(
@@ -207,7 +206,7 @@ class _UpdateDessertState extends State<UpdateDessert> {
             SizedBox(
               height: 30 * r,
             ),
-            UpdateDessertImage(image: widget.dessertItem.data.image),
+            UpdateDessertImage(image: widget.dessertItem.dessertImage),
             Container(
               padding: EdgeInsets.all(10 * r),
               child: Form(
@@ -237,7 +236,8 @@ class _UpdateDessertState extends State<UpdateDessert> {
                                       onPressed: () {
                                         setState(() {
                                           ingInput.add(inputField(
-                                              label: "Ing ${ingIndex + 1}", id: ingIndex));
+                                              label: "Ing ${ingIndex + 1}",
+                                              id: ingIndex));
                                           ingIndex = ingIndex + 1;
                                         });
                                       },
@@ -258,7 +258,7 @@ class _UpdateDessertState extends State<UpdateDessert> {
                             Container(
                               width: 16,
                             ),
-                            Expanded(child: cookTimeField),
+                            // Expanded(child: cooking),
                           ],
                         ),
                         Padding(
@@ -281,7 +281,8 @@ class _UpdateDessertState extends State<UpdateDessert> {
                                       onPressed: () {
                                         setState(() {
                                           stpInput.add(stepsField(
-                                              label: "Step ${stpIndex + 1}", id : stpIndex));
+                                              label: "Step ${stpIndex + 1}",
+                                              id: stpIndex));
                                           stpIndex = stpIndex + 1;
                                         });
                                       },
@@ -303,6 +304,7 @@ class _UpdateDessertState extends State<UpdateDessert> {
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
+          isLoading: false,
           title: 'update'.tr(),
           onTap: () async {
             setState(() {
@@ -311,7 +313,8 @@ class _UpdateDessertState extends State<UpdateDessert> {
             print(titleControllerDesserts.text);
             formKey.currentState!.save();
             if (formKey.currentState!.validate()) {
-              await updateMdl.updateImageToFirebase(context: context,
+              await updateMdl.updateImageToFirebase(
+                  context: context,
                   name: titleControllerDesserts.text,
                   sub: commentControllerDesserts.text,
                   ing: ingredients,
@@ -320,8 +323,7 @@ class _UpdateDessertState extends State<UpdateDessert> {
                   temp: tempControllerDesserts.text,
                   pre: prepTimeControllerDesserts.text,
                   id: widget.dessertItem.id,
-                  img: widget.dessertItem.data.image
-              );
+                  img: widget.dessertItem.dessertImage);
               rpDessertdl.loadAllDesserts();
             }
             final snackBar = SnackBar(

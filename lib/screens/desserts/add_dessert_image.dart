@@ -3,12 +3,12 @@
 // import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:food_recipe/providers/add_dessert_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:food_recipe/index.dart';
-
 
 class AddDessertImage extends StatefulWidget {
   const AddDessertImage({Key? key}) : super(key: key);
@@ -26,7 +26,8 @@ class _AddDessertImageState extends State<AddDessertImage> {
 
   void _onImageButtonPressed(ImageSource source,
       {required BuildContext context, maxWidth, maxHeight}) async {
-    final addDessertdl = Provider.of<AddDessertProvider>(context, listen: false);
+    final addDessertdl =
+        Provider.of<AddDessertProvider>(context, listen: false);
     try {
       final pickedFile = await _picker.pickImage(
         source: source,
@@ -58,16 +59,14 @@ class _AddDessertImageState extends State<AddDessertImage> {
       } else {
         // return Image.file(File(_imageFile.path));
         return SizedBox(
-            height: h/3.5,
+            height: h / 3.5,
             width: w,
             child: InkWell(
                 onTap: () {
                   _onImageButtonPressed(ImageSource.gallery,
-                      context: context, maxHeight: h/3.5, maxWidth: w);
+                      context: context, maxHeight: h / 3.5, maxWidth: w);
                 },
-                child: Image.file(File(_imageFile!.path), fit: BoxFit.cover)
-            )
-        );
+                child: Image.file(File(_imageFile!.path), fit: BoxFit.cover)));
       }
     } else if (_pickImageError != null) {
       return Text(
@@ -80,7 +79,7 @@ class _AddDessertImageState extends State<AddDessertImage> {
   }
 
   Text? _getRetrieveErrorWidget() {
-    if(_retrieveDataError != null){
+    if (_retrieveDataError != null) {
       final Text result = Text(_retrieveDataError!);
       _retrieveDataError = null;
       return result;
@@ -102,10 +101,10 @@ class _AddDessertImageState extends State<AddDessertImage> {
     }
   }
 
-  Widget imagePlaceHolder({h, w}){
+  Widget imagePlaceHolder({h, w}) {
     return Container(
       margin: const EdgeInsets.all(10),
-      height: h/3.5,
+      height: h / 3.5,
       width: w,
       color: kPurple4,
       child: InkWell(
@@ -113,7 +112,11 @@ class _AddDessertImageState extends State<AddDessertImage> {
           _onImageButtonPressed(ImageSource.gallery,
               context: context, maxHeight: h / 3.5, maxWidth: w);
         },
-        child: const Icon(Icons.camera_alt_outlined, color: Colors.white,size: 80,),
+        child: const Icon(
+          Icons.camera_alt_outlined,
+          color: Colors.white,
+          size: 80,
+        ),
       ),
     );
   }
@@ -123,34 +126,32 @@ class _AddDessertImageState extends State<AddDessertImage> {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Center(
-      child:
-      !kIsWeb && defaultTargetPlatform == TargetPlatform.android
+      child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
           ? FutureBuilder<void>(
-        future: retrieveLostData(),
-        builder: (BuildContext context,
-            AsyncSnapshot<void> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            case ConnectionState.waiting:
-              return imagePlaceHolder(h: h, w: w);
-            case ConnectionState.done:
-              return _previewImage(h: h, w: w);
-            default:
-              if (snapshot.hasError) {
-                return Text(
-                  'Pick image error: ${snapshot.error}}',
-                  textAlign: TextAlign.center,
-                );
-              } else {
-                return imagePlaceHolder(h: h, w: w);
-              }
-          }
-        },
-      )
+              future: retrieveLostData(),
+              builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  case ConnectionState.waiting:
+                    return imagePlaceHolder(h: h, w: w);
+                  case ConnectionState.done:
+                    return _previewImage(h: h, w: w);
+                  default:
+                    if (snapshot.hasError) {
+                      return Text(
+                        'Pick image error: ${snapshot.error}}',
+                        textAlign: TextAlign.center,
+                      );
+                    } else {
+                      return imagePlaceHolder(h: h, w: w);
+                    }
+                }
+              },
+            )
           : _previewImage(h: h, w: w),
     );
   }
 }
 
-typedef OnPickImageCallback = void Function(
+typedef OnPickImageCallbackForDesert = void Function(
     double maxWidth, double maxHeight, int quality);

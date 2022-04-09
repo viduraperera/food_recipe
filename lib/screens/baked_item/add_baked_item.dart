@@ -118,7 +118,6 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
   @override
   void initState() {
     super.initState();
-    // ingInput.add(inputField("Ing${ingIndex + 1}" , 0));
   }
 
   @override

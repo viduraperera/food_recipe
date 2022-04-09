@@ -30,7 +30,7 @@ class _AddNewMealState extends State<AddNewMeal> {
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
     // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
-    IngredientItem ing = IngredientItem(id:id, name: "");
+    IngredientItem ing = IngredientItem(id: id, name: "");
     ingredients.add(ing);
 
     return Column(
@@ -43,12 +43,11 @@ class _AddNewMealState extends State<AddNewMeal> {
                   key: Key(id.toString()),
                   onChanged: (String value) {
                     // changeInputValue(value, id);
-                   for(IngredientItem i in ingredients){
-                     if(i.id == ing.id){
-                       i.name = value;
-                     }
-                   }
-
+                    for (IngredientItem i in ingredients) {
+                      if (i.id == ing.id) {
+                        i.name = value;
+                      }
+                    }
                   },
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -57,11 +56,10 @@ class _AddNewMealState extends State<AddNewMeal> {
                     suffixIcon: IconButton(
                         icon: const Icon(Icons.close, color: kGrey, size: 20),
                         onPressed: () {
-                          print(id);
                           setState(() {
                             ingInput.removeAt(id);
-                            ingredients.removeWhere((item) => item.id == ing.id);
-
+                            ingredients
+                                .removeWhere((item) => item.id == ing.id);
                           });
                         }),
                     hintText: label,
@@ -74,9 +72,8 @@ class _AddNewMealState extends State<AddNewMeal> {
   Widget stepsField(label, id) {
     final _ctrl = TextEditingController();
     // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
-    RecipeStep stp = RecipeStep(id:id, step: "");
+    RecipeStep stp = RecipeStep(id: id, step: "");
     recipeSteps.add(stp);
-
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,8 +85,8 @@ class _AddNewMealState extends State<AddNewMeal> {
                   key: Key(id.toString()),
                   onChanged: (String value) {
                     // changeInputValue(value, id);
-                    for(RecipeStep i in recipeSteps){
-                      if(i.id == stp.id){
+                    for (RecipeStep i in recipeSteps) {
+                      if (i.id == stp.id) {
                         i.step = value;
                       }
                     }
@@ -104,7 +101,8 @@ class _AddNewMealState extends State<AddNewMeal> {
                           print(id);
                           setState(() {
                             stpInput.removeAt(id);
-                            recipeSteps.removeWhere((item) => item.id == stp.id);
+                            recipeSteps
+                                .removeWhere((item) => item.id == stp.id);
                           });
                         }),
                     hintText: label,
@@ -247,7 +245,6 @@ class _AddNewMealState extends State<AddNewMeal> {
                                               "Step ${stpIndex + 1}",
                                               stpIndex));
                                           stpIndex = stpIndex + 1;
-
                                         });
                                       },
                                       icon: const Icon(
@@ -271,26 +268,24 @@ class _AddNewMealState extends State<AddNewMeal> {
             title: 'submit'.tr(),
             onTap: () async {
               setState(() {
-              //   // validate = true;
+                //   // validate = true;
               });
-
 
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
-                await addMdl.uploadImageToFirebase(context: context,
-                     name: titleController.text,
-                     sub: commentController.text,
-                     ing: ingredients,
-                     des: detailController.text,
-                     stp: recipeSteps,
-                     temp: tempController.text,
-                     cook: cookTimeController.text,
-                     pre: prepTimeController.text
-                 );
+                await addMdl.uploadImageToFirebase(
+                    context: context,
+                    name: titleController.text,
+                    sub: commentController.text,
+                    ing: ingredients,
+                    des: detailController.text,
+                    stp: recipeSteps,
+                    temp: tempController.text,
+                    cook: cookTimeController.text,
+                    pre: prepTimeController.text);
                 rpMdl.loadAllMeal();
               }
-            }
-            ),
+            }),
       ),
     );
   }

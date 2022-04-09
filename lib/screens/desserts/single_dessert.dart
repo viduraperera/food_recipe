@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,8 @@ class SingleDessert extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
     double r = UIManager.ratio;
 
+    inspect(dessertItem);
+
     return Scaffold(
       body: SlidingUpPanel(
         minHeight: h / 1.7,
@@ -35,46 +39,50 @@ class SingleDessert extends StatelessWidget {
       ),
     );
   }
+
   Widget getBody(
       {required BuildContext context,
-        required double h,
-        required double w,
-        required double r}){
+      required double h,
+      required double w,
+      required double r}) {
     return Container(
       alignment: Alignment.topLeft,
-      child: Stack(children: [
-        Image(
-          width: w,
-          image: NetworkImage(dessertItem.data.dessertImage),
-          fit: BoxFit.cover,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
-          child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                size: 30 * r,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-        )
-      ],),
+      child: Stack(
+        children: [
+          Image(
+            width: w,
+            image: NetworkImage(dessertItem.data.dessertImage),
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
+            child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 30 * r,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+          )
+        ],
+      ),
     );
   }
+
   Widget getPanel(
-      {required BuildContext context, required double h, required double r}){
+      {required BuildContext context, required double h, required double r}) {
     final rDessertdl = Provider.of<DessertProvider>(context);
     final PageController controller = PageController(initialPage: 0);
     TextStyle titleSt =
-    TextStyle(fontSize: 16 * r, fontWeight: FontWeight.bold, color: kGrey);
+        TextStyle(fontSize: 16 * r, fontWeight: FontWeight.bold, color: kGrey);
     TextStyle valueSt =
-    TextStyle(fontSize: 18 * r, fontWeight: FontWeight.bold, color: kBlack);
+        TextStyle(fontSize: 18 * r, fontWeight: FontWeight.bold, color: kBlack);
 
     final rpDessertdl = Provider.of<DessertProvider>(context, listen: false);
 
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         _panelController.open();
       },
       child: Padding(
@@ -121,7 +129,8 @@ class SingleDessert extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => UpdateDessert(dessertItem:dessertItem)));
+                                            builder: (context) => UpdateDessert(
+                                                dessertItem: dessertItem)));
                                   },
                                 ),
                                 IconButton(
@@ -130,10 +139,11 @@ class SingleDessert extends StatelessWidget {
                                   onPressed: () {
                                     rpDessertdl.deleteDessert(dessertItem.id);
                                     Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                    builder: (context) => DessertList()));
-                                    },
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DessertList()));
+                                  },
                                   //},
                                 ),
                               ],
@@ -151,37 +161,27 @@ class SingleDessert extends StatelessWidget {
                               children: [
                                 Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text("single_recipe.temp".tr(),
-                                            style: titleSt),
-                                        Text(dessertItem.data.preparation.temp ?? "",
-                                            style: valueSt),
-                                      ],
-                                    )),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("single_recipe.temp".tr(),
+                                        style: titleSt),
+                                    Text(
+                                        dessertItem.data.preparation.temp ?? "",
+                                        style: valueSt),
+                                  ],
+                                )),
                                 Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text("single_recipe.pre_time".tr(),
-                                            style: titleSt),
-                                        Text(dessertItem.data.preparation.prepTime ?? "",
-                                            style: valueSt),
-                                      ],
-                                    )),
-                                Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "single_recipe.cooking".tr(),
-                                          style: titleSt,
-                                        ),
-                                      ],
-                                    )),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("single_recipe.pre_time".tr(),
+                                        style: titleSt),
+                                    Text(
+                                        dessertItem.data.preparation.prepTime ??
+                                            "",
+                                        style: valueSt),
+                                  ],
+                                )),
                               ],
                             ),
                             SizedBox(height: 20 * r),
@@ -191,8 +191,7 @@ class SingleDessert extends StatelessWidget {
                             Text(
                               dessertItem.data.description ?? "",
                               style: const TextStyle(
-                                  color: kBlack,
-                                  fontWeight: FontWeight.w600),
+                                  color: kBlack, fontWeight: FontWeight.w600),
                             ),
                             SizedBox(
                               height: 20 * r,
@@ -209,7 +208,7 @@ class SingleDessert extends StatelessWidget {
                                   padding: EdgeInsets.only(bottom: 10 * r),
                                   child: Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         flex: 2,
@@ -227,50 +226,49 @@ class SingleDessert extends StatelessWidget {
                   ),
                   SingleChildScrollView(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("single_recipe.steps".tr(), style: titleSt),
-                          SizedBox(
-                            height: 20 * r,
-                          ),
-                          Column(
-                            children: dessertItem.data.steps.map((RecipeStepDessert step) {
-                              int idx = dessertItem.data.steps.indexOf(step) + 1;
-                              return Padding(
-                                  padding: EdgeInsets.all(10 * r),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("single_recipe.steps".tr(), style: titleSt),
+                      SizedBox(
+                        height: 20 * r,
+                      ),
+                      Column(
+                        children: dessertItem.data.steps
+                            .map((RecipeStepDessert step) {
+                          int idx = dessertItem.data.steps.indexOf(step) + 1;
+                          return Padding(
+                              padding: EdgeInsets.all(10 * r),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     children: [
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                              flex: 0,
-                                              child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right: 20 * r),
-                                                  child: CircleAvatar(
-                                                    backgroundColor: kPurple,
-                                                    child: Text(
-                                                        idx.toString()),
-                                                  ))),
-                                          Expanded(
-                                            child: Text(
-                                              step.step,
-                                              style: TextStyle(
-                                                  fontSize: 18 * r,
-                                                  color: kPurple,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ),
-                                        ],
+                                      Expanded(
+                                          flex: 0,
+                                          child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: 20 * r),
+                                              child: CircleAvatar(
+                                                backgroundColor: kPurple,
+                                                child: Text(idx.toString()),
+                                              ))),
+                                      Expanded(
+                                        child: Text(
+                                          step.step,
+                                          style: TextStyle(
+                                              fontSize: 18 * r,
+                                              color: kPurple,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ],
-                                  ));
-                            }).toList(),
-                          )
-                        ],
-                      ))
+                                  ),
+                                ],
+                              ));
+                        }).toList(),
+                      )
+                    ],
+                  ))
                 ],
               ),
             ),

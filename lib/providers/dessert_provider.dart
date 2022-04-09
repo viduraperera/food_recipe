@@ -4,34 +4,35 @@ import 'package:food_recipe/index.dart';
 
 import '../models/dessert_item.dart';
 
-class DessertProvider with ChangeNotifier{
+class DessertProvider with ChangeNotifier {
   String searchKey = "";
   int pageDessert = 0;
   List<Dessert> dessertListProvider = []; //foodMealList
   List<DessertItem> searchDessertList = [];
   bool reLoading = false;
 
-  onSingleRecipePageChange(int page){
-    if(page == 0){
+  onSingleRecipePageChange(int page) {
+    if (page == 0) {
       pageDessert = 0;
-    }else{
+    } else {
       pageDessert = 1;
     }
     notifyListeners();
   }
+
   final dessertRef = FirebaseFirestore.instance
       .collection('dessert')
-      .withConverter<DessertItem>
-    (fromFirestore: (snapshot, _) => DessertItem.fromJson(snapshot.data()!),
-    toFirestore: (dessert, _) => dessert.toJson(),
-  );
+      .withConverter<DessertItem>(
+        fromFirestore: (snapshot, _) => DessertItem.fromJson(snapshot.data()!),
+        toFirestore: (dessert, _) => dessert.toJson(),
+      );
 
   loadAllDesserts() async {
     dessertListProvider.clear();
     List<QueryDocumentSnapshot<DessertItem>> snapshotList =
-    await dessertRef.get().then((value) => value.docs);
+        await dessertRef.get().then((value) => value.docs);
 
-    for(var item in snapshotList){
+    for (var item in snapshotList) {
       DessertItem i = item.data();
       String id = item.id;
       Dessert d = Dessert(id: id, data: i);
@@ -42,17 +43,17 @@ class DessertProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  loadSearch(String key) async{
+  loadSearch(String key) async {
     final searchRef = FirebaseFirestore.instance
         .collection('dessert')
-        .where('name', isLessThanOrEqualTo: key)
+        .where('desertName', isLessThanOrEqualTo: key)
         .withConverter<DessertItem>(
-        fromFirestore: (snapshot, _) => DessertItem.fromJson(snapshot.data()!),
-        toFirestore: (dessert, _) => dessert.toJson()
-    );
+            fromFirestore: (snapshot, _) =>
+                DessertItem.fromJson(snapshot.data()!),
+            toFirestore: (dessert, _) => dessert.toJson());
 
     List<QueryDocumentSnapshot<DessertItem>> snapshotList =
-    await searchRef.get().then((value) => value.docs);
+        await searchRef.get().then((value) => value.docs);
 
     for (var item in snapshotList) {
       DessertItem i = item.data();
@@ -69,5 +70,4 @@ class DessertProvider with ChangeNotifier{
 
     notifyListeners();
   }
-
 }

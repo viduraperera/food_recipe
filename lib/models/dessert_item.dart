@@ -24,8 +24,9 @@ class DessertItem {
       required this.preparation});
 
   factory DessertItem.fromJson(Map<String, dynamic> json) => DessertItem(
-      dessertName: json["name"],
-      dessertImage: json["image"],
+      dessertName: json["dessertName"],
+      dessertImage: json["dessertImage"],
+      description: json["description"],
       subTitle: json["subTitle"],
       ingredients: json['ingredients'] != null
           ? (json['ingredients'] as List)
@@ -42,8 +43,8 @@ class DessertItem {
           : PreparationDessert());
 
   Map<String, dynamic> toJson() => {
-        'name': dessertName,
-        'image': dessertImage,
+        'dessertName': dessertName,
+        'dessertImage': dessertImage,
         'subTitle': subTitle,
         'description': description,
       };
@@ -69,7 +70,7 @@ class PreparationDessert {
 
 class RecipeStepDessert {
   final int? id;
-  late final String step;
+  late String step;
   final String? description;
 
   RecipeStepDessert({this.id, required this.step, this.description});
@@ -88,7 +89,7 @@ class RecipeStepDessert {
 
 class IngredientItemDessert {
   final int? id;
-  late final String name;
+  late String name;
   final String? amount;
 
   IngredientItemDessert({this.id, required this.name, this.amount});

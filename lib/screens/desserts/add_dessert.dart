@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,6 @@ class _AddNewDessertState extends State<AddNewDessert> {
 
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
-    // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
     IngredientItemDessert ing = IngredientItemDessert(id: id, name: "");
     ingredients.add(ing);
 
@@ -62,7 +63,6 @@ class _AddNewDessertState extends State<AddNewDessert> {
                     suffixIcon: IconButton(
                         icon: const Icon(Icons.close, color: kGrey, size: 20),
                         onPressed: () {
-                          print(id);
                           setState(() {
                             ingInput.removeAt(id);
                             ingredients
@@ -122,7 +122,6 @@ class _AddNewDessertState extends State<AddNewDessert> {
   @override
   void initState() {
     super.initState();
-    // ingInput.add(inputField("Ing${ingIndex + 1}" , 0));
   }
 
   @override
@@ -274,16 +273,44 @@ class _AddNewDessertState extends State<AddNewDessert> {
 
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
-                await addDesserts.uploadImageToFirebase(
-                    context: context,
-                    name: titleControllerDessert.text,
-                    sub: commentControllerDessert.text,
-                    ing: ingredients,
-                    des: detailControllerDessert.text,
-                    stp: recipeSteps,
-                    temp: tempControllerDessert.text,
-                    pre: prepTimeControllerDessert.text);
-                rpDessertdl.loadAllDesserts();
+                try {
+                  final snackBar = SnackBar(
+                    content: const Text(
+                        'Your Baked Item is being saved. Please wait..'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  await addDesserts.uploadImageToFirebase(
+                      context: context,
+                      name: titleControllerDessert.text,
+                      sub: commentControllerDessert.text,
+                      ing: ingredients,
+                      des: detailControllerDessert.text,
+                      stp: recipeSteps,
+                      temp: tempControllerDessert.text,
+                      pre: prepTimeControllerDessert.text);
+                  await rpDessertdl.loadAllDesserts();
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  final savedSnackBar = SnackBar(
+                    content: const Text('Your Baked Item is Saved'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
+                } catch (e) {
+                  print(
+                      '-------------------------------------------------------------------');
+                  print(e);
+                }
               }
             }),
       ),

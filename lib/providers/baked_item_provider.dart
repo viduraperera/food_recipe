@@ -26,7 +26,7 @@ class BakedItemProvider with ChangeNotifier {
         toFirestore: (meal, _) => meal.toJson(),
       );
 
-  loadAllMeal() async {
+  loadAllBakedItems() async {
     foodMealList.clear();
     List<QueryDocumentSnapshot<BakedItem>> snapshotList =
         await mealRef.get().then((value) => value.docs);
@@ -64,9 +64,9 @@ class BakedItemProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  deleteMeal(id) async {
+  deleteBakedItem(id) async {
     var collection = FirebaseFirestore.instance.collection('baked');
-    collection.doc(id).delete();
+    await collection.doc(id).delete();
 
     notifyListeners();
   }

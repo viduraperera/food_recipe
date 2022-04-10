@@ -225,7 +225,8 @@ class _EditBakedItemState extends State<EditBakedItem> {
               children: [
                 UpdateBakedItemImage(image: widget.bakedItem.data.image),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 15 * r, vertical: 30 * r),
                   child: IconButton(
                       icon: Icon(
                         Icons.arrow_back,
@@ -237,7 +238,6 @@ class _EditBakedItemState extends State<EditBakedItem> {
                 )
               ],
             ),
-
             Container(
               padding: EdgeInsets.all(10 * r),
               child: Form(
@@ -364,7 +364,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     cookingTime: cookingTimeController.text,
                     id: widget.bakedItem.id,
                     img: widget.bakedItem.data.image);
-                await rpMdl.loadAllMeal();
+                await rpMdl.loadAllBakedItems();
                 setState(() {
                   isLoading = false;
                 });

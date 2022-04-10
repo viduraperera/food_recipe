@@ -308,7 +308,7 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                       cookingTime: cookingTimeController.text,
                       ingredients: bakingIngredient,
                       steps: bakingStep);
-                  await rpMdl.loadAllMeal();
+                  await rpMdl.loadAllBakedItems();
                   setState(() {
                     isLoading = false;
                   });

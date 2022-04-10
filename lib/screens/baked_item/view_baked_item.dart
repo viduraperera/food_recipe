@@ -143,7 +143,8 @@ class ViewBakedItem extends StatelessWidget {
                                     );
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(snackBar);
-                                    await rpMdl.deleteMeal(bakedItem.id);
+                                    await rpMdl.deleteBakedItem(bakedItem.id);
+                                    await rpMdl.loadAllBakedItems();
                                     ScaffoldMessenger.of(context)
                                         .clearSnackBars();
                                     final deletedSnackBar = SnackBar(

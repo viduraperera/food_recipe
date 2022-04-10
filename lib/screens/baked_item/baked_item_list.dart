@@ -68,13 +68,30 @@ class _BakedItemListState extends State<BakedItemList> {
                             begin: Alignment.bottomCenter,
                             end: Alignment.center,
                             colors: <Color>[kGrey5, Colors.transparent])),
-                    child: Image(
-                      image: AssetImage(
-                        "assets/images/pastry.jpg",
+                      child: Stack( children: [
+                        Image(
+                          image: AssetImage("assets/images/pastry2.jpg",
+                          ),
+                          fit: BoxFit.cover,
+                          height: (h / 2) * r,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back,
+                              size: 30 * r,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MainScreen()));
+                            },
+                          ),
+                        )
+                      ],
                       ),
-                      fit: BoxFit.cover,
-                      height: (h / 4) * r,
-                    ),
                   ))),
           SliverList(
             delegate: SliverChildBuilderDelegate(

@@ -124,12 +124,38 @@ class SingleMealScreen extends StatelessWidget {
                                           IconButton(
                                             icon: const Icon(Icons.delete),
                                             tooltip: 'Delete',
-                                            onPressed: () {
-                                              rpMdl.deleteMeal(mealItem.id);
+                                            onPressed: () async {
+                                              final snackBar = SnackBar(
+                                                content: const Text(
+                                                    'Meal is being Deleted. Please wait..'),
+                                                action: SnackBarAction(
+                                                  label: '',
+                                                  onPressed: () {
+                                                    // Some code to undo the change.
+                                                  },
+                                                ),
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(snackBar);
+                                              await rpMdl.deleteMeal(mealItem.id);
+                                              ScaffoldMessenger.of(context)
+                                                  .clearSnackBars();
+                                              final deletedSnackBar = SnackBar(
+                                                content: const Text('Meal Deleted'),
+                                                action: SnackBarAction(
+                                                  label: '',
+                                                  onPressed: () {
+                                                    // Some code to undo the change.
+                                                  },
+                                                ),
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(deletedSnackBar);
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) => MealList()));
+                                                      builder: (context) =>
+                                                          MealList()));
                                             },
                                           ),
                                   ],

@@ -213,7 +213,23 @@ class _UpdateDessertState extends State<UpdateDessert> {
             SizedBox(
               height: 30 * r,
             ),
-            UpdateDessertImage(image: widget.dessertItem.data.dessertImage),
+            Stack(
+              children: [
+                UpdateDessertImage(image: widget.dessertItem.data.dessertImage),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        size: 30 * r,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                )
+              ],
+            ),
+
             Container(
               padding: EdgeInsets.all(10 * r),
               child: Form(

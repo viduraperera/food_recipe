@@ -73,10 +73,29 @@ class _DessertListState extends State<DessertList> {
                                 begin: Alignment.bottomCenter,
                                 end: Alignment.center,
                                 colors: <Color>[kPurple, Colors.transparent])),
-                        child: Image(
-                          image: AssetImage('assets/images/dessert.jpg',),
-                          height: (h / 4) * r,
-                          fit: BoxFit.cover,
+                        child: Stack( children: [
+                          Image(
+                            image: AssetImage("assets/images/desserts3.jpg",
+                            ),
+                            fit: BoxFit.cover,
+                            height: (h / 2) * r,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.arrow_back,
+                                size: 30 * r,
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MainScreen()));
+                              },
+                            ),
+                          )
+                        ],
                         ),
                       )
                   )

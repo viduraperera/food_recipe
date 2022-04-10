@@ -35,7 +35,7 @@ class _DessertSplashScreenState extends State<DessertSplashScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: Image(
-                  image: AssetImage("assets/images/1.png"),
+                  image: AssetImage("assets/images/2.png"),
                   fit: BoxFit.cover,
                 ),
               ),

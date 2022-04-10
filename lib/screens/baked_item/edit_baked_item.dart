@@ -215,7 +215,23 @@ class _EditBakedItemState extends State<EditBakedItem> {
             SizedBox(
               height: 30 * r,
             ),
-            UpdateBakedItemImage(image: widget.bakedItem.data.image),
+            Stack(
+              children: [
+                UpdateBakedItemImage(image: widget.bakedItem.data.image),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        size: 30 * r,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      }),
+                )
+              ],
+            ),
+
             Container(
               padding: EdgeInsets.all(10 * r),
               child: Form(

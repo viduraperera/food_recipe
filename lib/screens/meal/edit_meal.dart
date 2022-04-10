@@ -214,7 +214,23 @@ class _EditMealState extends State<EditMeal> {
             SizedBox(
               height: 30 * r,
             ),
-             UpdateMealImage(image: widget.mealItem.data.image),
+             Stack(
+               children: [
+                 UpdateMealImage(image: widget.mealItem.data.image),
+                 Padding(
+                   padding: EdgeInsets.symmetric(horizontal: 15 * r, vertical: 30 * r),
+                   child: IconButton(
+                       icon: Icon(
+                         Icons.arrow_back,
+                         size: 30 * r,
+                       ),
+                       onPressed: () {
+                         Navigator.of(context).pop();
+                       }),
+                 ),
+               ],
+             ),
+
             Container(
               padding: EdgeInsets.all(10 * r),
               child: Form(
@@ -318,30 +334,58 @@ class _EditMealState extends State<EditMeal> {
               print(titleController.text);
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
-                await updateMdl.updateImageToFirebase(context: context,
-                    name: titleController.text,
-                    sub: commentController.text,
-                    ing: ingredients,
-                    des: detailController.text,
-                    stp: recipeSteps,
-                    temp: tempController.text,
-                    cook: cookTimeController.text,
-                    pre: prepTimeController.text,
-                    id: widget.mealItem.id,
-                  img: widget.mealItem.data.image
-                );
-                rpMdl.loadAllMeal();
+                try {
+                  final snackBar = SnackBar(
+                    content: const Text(
+                        'Your Baked Item is being Updated. Please wait..'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  await updateMdl.updateImageToFirebase(context: context,
+                      name: titleController.text,
+                      sub: commentController.text,
+                      ing: ingredients,
+                      des: detailController.text,
+                      stp: recipeSteps,
+                      temp: tempController.text,
+                      cook: cookTimeController.text,
+                      pre: prepTimeController.text,
+                      id: widget.mealItem.id,
+                      img: widget.mealItem.data.image
+                  );
+                  await rpMdl.loadAllMeal();
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  final updatedSnackBar = SnackBar(
+                    content: const Text('Your Baked Item is Updated'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(updatedSnackBar);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MealList()));
+                } catch (e) {
+                  final snackBar = SnackBar(
+                    content: const Text('An Error Occurred'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  print(e);
+                }
               }
-              final snackBar = SnackBar(
-                content: const Text('Your Meal is Updated'),
-                action: SnackBarAction(
-                  label: '',
-                  onPressed: () {
-                    // Some code to undo the change.
-                  },
-                ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
         ),
       ),
@@ -350,17 +394,3 @@ class _EditMealState extends State<EditMeal> {
 }
 
 
-// Navigator.push(
-// context,
-// MaterialPageRoute(
-// builder: (context) => MealList()));
-// final snackBar = SnackBar(
-//   content: const Text('Yay! A SnackBar!'),
-//   action: SnackBarAction(
-//     label: 'Undo',
-//     onPressed: () {
-//       // Some code to undo the change.
-//     },
-//   ),
-// );
-// ScaffoldMessenger.of(context).showSnackBar(snackBar);

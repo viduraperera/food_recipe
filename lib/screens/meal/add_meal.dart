@@ -26,6 +26,7 @@ class _AddNewMealState extends State<AddNewMeal> {
   List<IngredientItem> ingredients = [];
   int ingIndex = 0;
   int stpIndex = 0;
+  bool isLoading = false;
 
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
@@ -268,25 +269,75 @@ class _AddNewMealState extends State<AddNewMeal> {
             title: 'submit'.tr(),
             onTap: () async {
               setState(() {
-                //   // validate = true;
+                isLoading = true;
               });
 
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
-                await addMdl.uploadImageToFirebase(
-                    context: context,
-                    name: titleController.text,
-                    sub: commentController.text,
-                    ing: ingredients,
-                    des: detailController.text,
-                    stp: recipeSteps,
-                    temp: tempController.text,
-                    cook: cookTimeController.text,
-                    pre: prepTimeController.text);
-                rpMdl.loadAllMeal();
+                try {
+                  final snackBar = SnackBar(
+                    content: const Text(
+                        'Your Meal being added. Please wait..'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  await addMdl.uploadImageToFirebase(
+                      context: context,
+                      name: titleController.text,
+                      sub: commentController.text,
+                      ing: ingredients,
+                      des: detailController.text,
+                      stp: recipeSteps,
+                      temp: tempController.text,
+                      cook: cookTimeController.text,
+                      pre: prepTimeController.text);
+                  await rpMdl.loadAllMeal();
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  isLoading = false;
+                  final savedSnackBar = SnackBar(
+                    content: const Text('Your Meal is added'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MealList()));
+                } catch (e) {
+                  final snackBar = SnackBar(
+                    content: const Text('An Error Occurred'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              }else{
+                final snackBar = SnackBar(
+                  content: const Text('Fill all the mandatory fields'),
+                  action: SnackBarAction(
+                    label: '',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             }),
       ),
     );
   }
 }
+

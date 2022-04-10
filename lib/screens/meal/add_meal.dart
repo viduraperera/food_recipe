@@ -26,6 +26,7 @@ class _AddNewMealState extends State<AddNewMeal> {
   List<IngredientItem> ingredients = [];
   int ingIndex = 0;
   int stpIndex = 0;
+  bool isLoading = false;
 
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
@@ -266,24 +267,55 @@ class _AddNewMealState extends State<AddNewMeal> {
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
             title: 'submit'.tr(),
+            isLoading: this.isLoading,
             onTap: () async {
-              setState(() {
-                //   // validate = true;
-              });
-
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
-                await addMdl.uploadImageToFirebase(
-                    context: context,
-                    name: titleController.text,
-                    sub: commentController.text,
-                    ing: ingredients,
-                    des: detailController.text,
-                    stp: recipeSteps,
-                    temp: tempController.text,
-                    cook: cookTimeController.text,
-                    pre: prepTimeController.text);
-                rpMdl.loadAllMeal();
+                try {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  await addMdl.uploadImageToFirebase(
+                      context: context,
+                      name: titleController.text,
+                      sub: commentController.text,
+                      ing: ingredients,
+                      des: detailController.text,
+                      stp: recipeSteps,
+                      temp: tempController.text,
+                      cook: cookTimeController.text,
+                      pre: prepTimeController.text);
+                  rpMdl.loadAllMeal();
+                  setState(() {
+                    isLoading = false;
+                  });
+                  final savedSnackBar = SnackBar(
+                    content: const Text('Your Meal is Saved'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MealList()));
+                } catch (e) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  final savedSnackBar = SnackBar(
+                    content: const Text('An Error Ocurred'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
+                }
               }
             }),
       ),

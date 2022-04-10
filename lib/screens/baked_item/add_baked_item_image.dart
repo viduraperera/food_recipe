@@ -51,11 +51,8 @@ class _AddBakedItemImageState extends State<AddBakedItemImage> {
     }
     if (_imageFile != null) {
       if (kIsWeb) {
-        // Why network?
-        // See https://pub.dev/packages/image_picker#getting-ready-for-the-web-platform
         return Image.network(_imageFile!.path);
       } else {
-        // return Image.file(File(_imageFile.path));
         return SizedBox(
             height: h / 3.5,
             width: w,

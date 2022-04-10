@@ -131,18 +131,24 @@ class _AddNewDessertState extends State<AddNewDessert> {
     final addDesserts = Provider.of<AddDessertProvider>(context, listen: false);
     double r = UIManager.ratio;
 
+    validate(value, msg) {
+      if (value == null || value.isEmpty) {
+        return '$msg is Required';
+      }
+      return null;
+    }
+
     InputField titleField = InputField(
       hint: 'single_recipe_dessert.name'.tr(),
       controller: titleControllerDessert,
-      onChanged: (val) {
-        print(val);
-      },
+      validator: (value) => validate(value, 'single_recipe_dessert.name'.tr()),
     );
 
     InputField commentField = InputField(
       hint: 'single_recipe_dessert.short_description'.tr(),
-      // maxLength: 2,
       controller: commentControllerDessert,
+      validator: (value) =>
+          validate(value, 'single_recipe_dessert.short_description'.tr()),
     );
 
     InputField detailField = InputField(
@@ -150,16 +156,21 @@ class _AddNewDessertState extends State<AddNewDessert> {
         maxLength: null,
         type: TextInputType.multiline,
         controller: detailControllerDessert,
+        validator: (value) =>
+            validate(value, 'single_recipe_dessert.description'.tr()),
         isMulti: true);
 
     InputField tempField = InputField(
       hint: 'single_recipe_dessert.temp'.tr(),
       controller: tempControllerDessert,
+      validator: (value) => validate(value, 'single_recipe_dessert.temp'.tr()),
     );
 
     InputField prepTimeField = InputField(
       hint: 'single_recipe_dessert.preparation_time'.tr(),
       controller: prepTimeControllerDessert,
+      validator: (value) =>
+          validate(value, 'single_recipe_dessert.preparation_time'.tr()),
     );
 
     return Scaffold(

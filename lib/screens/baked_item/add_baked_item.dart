@@ -34,7 +34,6 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
 
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
-    // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
     BakingIngredient ing = BakingIngredient(id: id, name: "");
     bakingIngredient.add(ing);
 
@@ -47,7 +46,6 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                   controller: _ctrl,
                   key: Key(id.toString()),
                   onChanged: (String value) {
-                    // changeInputValue(value, id);
                     for (BakingIngredient i in bakingIngredient) {
                       if (i.id == ing.id) {
                         i.name = value;
@@ -76,7 +74,6 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
 
   Widget stepsField(label, id) {
     final _ctrl = TextEditingController();
-    // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
     BakingStep stp = BakingStep(id: id, step: "");
     bakingStep.add(stp);
 
@@ -89,7 +86,6 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
                   controller: _ctrl,
                   key: Key(id.toString()),
                   onChanged: (String value) {
-                    // changeInputValue(value, id);
                     for (BakingStep i in bakingStep) {
                       if (i.id == stp.id) {
                         i.step = value;
@@ -126,11 +122,18 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
     final addMdl = Provider.of<AddBakedItemProvider>(context, listen: false);
     double r = UIManager.ratio;
 
+    validate(value, msg) {
+      if (value == null || value.isEmpty) {
+        return '$msg is Required';
+      }
+      return null;
+    }
+
     InputField titleField = InputField(
       hint: 'baked_item.name'.tr(),
       label: 'baked_item.name'.tr(),
       controller: titleController,
-      onChanged: (val) {},
+      validator: (value) => validate(value, 'baked_item.name'.tr()),
     );
 
     InputField descriptionField = InputField(
@@ -139,30 +142,36 @@ class _AddNewBakedItemState extends State<AddBakedItem> {
         maxLength: null,
         type: TextInputType.multiline,
         controller: descriptionController,
+        validator: (value) => validate(value, 'baked_item.description'.tr()),
         isMulti: true);
 
     InputField restTemperatureField = InputField(
       hint: 'baked_item.restTemperature'.tr(),
       label: 'baked_item.restTemperature'.tr(),
       controller: restTemperatureController,
+      validator: (value) => validate(value, 'baked_item.restTemperature'.tr()),
     );
 
     InputField restTimeField = InputField(
       hint: 'baked_item.restTime'.tr(),
       label: 'baked_item.restTime'.tr(),
       controller: restTimeController,
+      validator: (value) => validate(value, 'baked_item.restTime'.tr()),
     );
 
     InputField cookingTimeField = InputField(
       hint: 'baked_item.cookingTime'.tr(),
       label: 'baked_item.cookingTime'.tr(),
       controller: cookingTimeController,
+      validator: (value) => validate(value, 'baked_item.cookingTime'.tr()),
     );
 
     InputField cookingTemperatureField = InputField(
       hint: 'baked_item.cookingTemperature'.tr(),
       label: 'baked_item.cookingTemperature'.tr(),
       controller: cookingTemperatureController,
+      validator: (value) =>
+          validate(value, 'baked_item.cookingTemperature'.tr()),
     );
 
     return Scaffold(

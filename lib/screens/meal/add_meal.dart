@@ -267,25 +267,14 @@ class _AddNewMealState extends State<AddNewMeal> {
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
             title: 'submit'.tr(),
+            isLoading: this.isLoading,
             onTap: () async {
-              setState(() {
-                isLoading = true;
-              });
-
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
                 try {
-                  final snackBar = SnackBar(
-                    content: const Text(
-                        'Your Meal being added. Please wait..'),
-                    action: SnackBarAction(
-                      label: '',
-                      onPressed: () {
-                        // Some code to undo the change.
-                      },
-                    ),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  setState(() {
+                    isLoading = true;
+                  });
                   await addMdl.uploadImageToFirebase(
                       context: context,
                       name: titleController.text,
@@ -296,11 +285,12 @@ class _AddNewMealState extends State<AddNewMeal> {
                       temp: tempController.text,
                       cook: cookTimeController.text,
                       pre: prepTimeController.text);
-                  await rpMdl.loadAllMeal();
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  isLoading = false;
+                  rpMdl.loadAllMeal();
+                  setState(() {
+                    isLoading = false;
+                  });
                   final savedSnackBar = SnackBar(
-                    content: const Text('Your Meal is added'),
+                    content: const Text('Your Meal is Saved'),
                     action: SnackBarAction(
                       label: '',
                       onPressed: () {
@@ -312,8 +302,11 @@ class _AddNewMealState extends State<AddNewMeal> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MealList()));
                 } catch (e) {
-                  final snackBar = SnackBar(
-                    content: const Text('An Error Occurred'),
+                  setState(() {
+                    isLoading = false;
+                  });
+                  final savedSnackBar = SnackBar(
+                    content: const Text('An Error Ocurred'),
                     action: SnackBarAction(
                       label: '',
                       onPressed: () {
@@ -321,23 +314,11 @@ class _AddNewMealState extends State<AddNewMeal> {
                       },
                     ),
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
                 }
-              }else{
-                final snackBar = SnackBar(
-                  content: const Text('Fill all the mandatory fields'),
-                  action: SnackBarAction(
-                    label: '',
-                    onPressed: () {
-                      // Some code to undo the change.
-                    },
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               }
             }),
       ),
     );
   }
 }
-

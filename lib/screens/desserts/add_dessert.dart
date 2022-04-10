@@ -34,6 +34,7 @@ class _AddNewDessertState extends State<AddNewDessert> {
   List<IngredientItemDessert> ingredients = [];
   int ingIndex = 0;
   int stpIndex = 0;
+  bool isLoading = false;
 
   Widget inputField(label, id) {
     final _ctrl = TextEditingController();
@@ -266,6 +267,7 @@ class _AddNewDessertState extends State<AddNewDessert> {
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
             title: 'submit'.tr(),
+            isLoading: this.isLoading,
             onTap: () async {
               setState(() {
                 //   // validate = true;
@@ -274,17 +276,9 @@ class _AddNewDessertState extends State<AddNewDessert> {
               formKey.currentState!.save();
               if (formKey.currentState!.validate()) {
                 try {
-                  final snackBar = SnackBar(
-                    content: const Text(
-                        'Your Baked Item is being saved. Please wait..'),
-                    action: SnackBarAction(
-                      label: '',
-                      onPressed: () {
-                        // Some code to undo the change.
-                      },
-                    ),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  setState(() {
+                    isLoading = true;
+                  });
                   await addDesserts.uploadImageToFirebase(
                       context: context,
                       name: titleControllerDessert.text,
@@ -295,7 +289,10 @@ class _AddNewDessertState extends State<AddNewDessert> {
                       temp: tempControllerDessert.text,
                       pre: prepTimeControllerDessert.text);
                   await rpDessertdl.loadAllDesserts();
-                  ScaffoldMessenger.of(context).clearSnackBars();
+                  setState(() {
+                    isLoading = false;
+                  });
+
                   final savedSnackBar = SnackBar(
                     content: const Text('Your Baked Item is Saved'),
                     action: SnackBarAction(
@@ -306,10 +303,23 @@ class _AddNewDessertState extends State<AddNewDessert> {
                     ),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => DessertList()));
                 } catch (e) {
-                  print(
-                      '-------------------------------------------------------------------');
-                  print(e);
+                  setState(() {
+                    isLoading = false;
+                  });
+
+                  final savedSnackBar = SnackBar(
+                    content: const Text('An Error Occurred'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {
+                        // Some code to undo the change.
+                      },
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
                 }
               }
             }),

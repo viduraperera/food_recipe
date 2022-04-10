@@ -14,14 +14,9 @@ class MealList extends StatefulWidget {
 }
 
 class _MealListState extends State<MealList> {
-
   @override
   void initState() {
     super.initState();
-    final rpMdl = Provider.of<MealProvider>(context, listen: false);
-    rpMdl.loadAllMeal();
-
-
   }
 
   @override

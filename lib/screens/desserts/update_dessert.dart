@@ -35,6 +35,7 @@ class _UpdateDessertState extends State<UpdateDessert> {
   List<IngredientItemDessert> ingredients = [];
   int ingIndex = 0;
   int stpIndex = 0;
+  bool isLoading = false;
 
   Widget inputField({label, id, initialVal}) {
     IngredientItemDessert ing;
@@ -327,14 +328,15 @@ class _UpdateDessertState extends State<UpdateDessert> {
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
           title: 'update'.tr(),
+          isLoading: this.isLoading,
           onTap: () async {
-            setState(() {
-              //   // validate = true;
-            });
-            print(titleControllerDessert.text);
             formKey.currentState!.save();
             if (formKey.currentState!.validate()) {
               try {
+                setState(() {
+                  isLoading = true;
+                });
+
                 await updateDessertdl.updateImageToFirebase(
                     context: context,
                     name: titleControllerDessert.text,
@@ -347,19 +349,37 @@ class _UpdateDessertState extends State<UpdateDessert> {
                     id: widget.dessertItem.id,
                     img: widget.dessertItem.data.dessertImage);
                 await rpDessertdl.loadAllDesserts();
-                log('---------------------************************');
-              } catch (e) {}
+                setState(() {
+                  isLoading = false;
+                });
+                final savedSnackBar = SnackBar(
+                  content: const Text('Your Desert Recipe is Saved'),
+                  action: SnackBarAction(
+                    label: '',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => DessertList()));
+              } catch (e) {
+                setState(() {
+                  isLoading = false;
+                });
+                final savedSnackBar = SnackBar(
+                  content: const Text('An Error Ocurred'),
+                  action: SnackBarAction(
+                    label: '',
+                    onPressed: () {
+                      // Some code to undo the change.
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(savedSnackBar);
+              }
             }
-            final snackBar = SnackBar(
-              content: const Text('Your dessert recipe is updated'),
-              action: SnackBarAction(
-                label: '',
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           },
         ),
       ),

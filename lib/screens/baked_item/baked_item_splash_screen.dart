@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
+import 'package:provider/provider.dart';
 
 class BakedSplashScreen extends StatefulWidget {
   const BakedSplashScreen({Key? key}) : super(key: key);
@@ -18,12 +19,14 @@ class _BakedSplashScreenState extends State<BakedSplashScreen> {
 
   navigate() async {
     //adding duration to the splash screen
-    Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => BakedItemList()),
-          (r) => false);
-    });
+    final rpMdl = Provider.of<BakedItemProvider>(context, listen: false);
+    await rpMdl.loadAllMeal();
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => BakedItemList()),
+        (r) => false);
+    // Future.delayed(const Duration(seconds: 5), () {
+    // });
   }
 
   Widget build(BuildContext context) {

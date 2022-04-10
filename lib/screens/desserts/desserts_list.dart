@@ -16,12 +16,9 @@ class DessertList extends StatefulWidget {
 }
 
 class _DessertListState extends State<DessertList> {
-
   @override
   void initState() {
     super.initState();
-    final rpDessertdl = Provider.of<DessertProvider>(context, listen: false);
-    rpDessertdl.loadAllDesserts();
   }
 
   @override
@@ -42,7 +39,6 @@ class _DessertListState extends State<DessertList> {
           );
         },
         child: Icon(Icons.add),
-
       ),
       body: Shimmer(
         linearGradient: shimmerGradient,

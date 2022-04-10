@@ -32,6 +32,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
   List<BakingIngredient> ingredients = [];
   int ingIndex = 0;
   int stpIndex = 0;
+  bool isLoading = false;
 
   Widget inputField({label, id, initialVal}) {
     BakingIngredient ing;
@@ -339,25 +340,14 @@ class _EditBakedItemState extends State<EditBakedItem> {
         padding: EdgeInsets.symmetric(horizontal: 20 * r, vertical: 10 * r),
         child: CustomButton(
           title: 'update'.tr(),
+          isLoading: this.isLoading,
           onTap: () async {
-            setState(() {
-              //   // validate = true;
-            });
-            // print(titleController.text);
             formKey.currentState!.save();
             if (formKey.currentState!.validate()) {
               try {
-                final snackBar = SnackBar(
-                  content: const Text(
-                      'Your Baked Item is being Updated. Please wait..'),
-                  action: SnackBarAction(
-                    label: '',
-                    onPressed: () {
-                      // Some code to undo the change.
-                    },
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                setState(() {
+                  isLoading = true;
+                });
                 await updateMdl.updateImageToFirebase(
                     context: context,
                     name: titleController.text,
@@ -371,7 +361,9 @@ class _EditBakedItemState extends State<EditBakedItem> {
                     id: widget.bakedItem.id,
                     img: widget.bakedItem.data.image);
                 await rpMdl.loadAllMeal();
-                ScaffoldMessenger.of(context).clearSnackBars();
+                setState(() {
+                  isLoading = false;
+                });
                 final updatedSnackBar = SnackBar(
                   content: const Text('Your Baked Item is Updated'),
                   action: SnackBarAction(
@@ -385,6 +377,9 @@ class _EditBakedItemState extends State<EditBakedItem> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => BakedItemList()));
               } catch (e) {
+                setState(() {
+                  isLoading = false;
+                });
                 final snackBar = SnackBar(
                   content: const Text('An Error Occurred'),
                   action: SnackBarAction(

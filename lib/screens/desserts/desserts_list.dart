@@ -16,12 +16,9 @@ class DessertList extends StatefulWidget {
 }
 
 class _DessertListState extends State<DessertList> {
-
   @override
   void initState() {
     super.initState();
-    final rpDessertdl = Provider.of<DessertProvider>(context, listen: false);
-    rpDessertdl.loadAllDesserts();
   }
 
   @override
@@ -42,122 +39,122 @@ class _DessertListState extends State<DessertList> {
           );
         },
         child: Icon(Icons.add),
-
       ),
       body: Shimmer(
         linearGradient: shimmerGradient,
-        child: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                  expandedHeight: h / 4.5,
-                  automaticallyImplyLeading: false,
-                  pinned: true,
-                  backgroundColor: Colors.transparent,
-                  flexibleSpace: FlexibleSpaceBar(
-                      title: Row(
-                        children: const [
-                          Expanded(child: SizedBox()),
-                          Padding(
-                            padding: EdgeInsets.only(right: 10.0),
-                            child: Text(
-                              "My Recipe Book",
-                              style: TextStyle(color: kGrey),
-                            ),
-                          )
-                        ],
-                      ),
-                      background: DecoratedBox(
-                        position: DecorationPosition.foreground,
-                        decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.center,
-                                colors: <Color>[kPurple, Colors.transparent])),
-                        child: Image(
-                          image: AssetImage('assets/images/dessert.jpg',),
-                          height: (h / 4) * r,
-                          fit: BoxFit.cover,
+        child: CustomScrollView(slivers: <Widget>[
+          SliverAppBar(
+              expandedHeight: h / 4.5,
+              automaticallyImplyLeading: false,
+              pinned: true,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: FlexibleSpaceBar(
+                  title: Row(
+                    children: const [
+                      Expanded(child: SizedBox()),
+                      Padding(
+                        padding: EdgeInsets.only(right: 10.0),
+                        child: Text(
+                          "My Recipe Book",
+                          style: TextStyle(color: kGrey),
                         ),
                       )
-                  )
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    if (rpDessertdl.reLoading) {
-                      return ShimmerLoading(
-                          isLoading: rpDessertdl.reLoading,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 16),
-                            child: Column(
+                    ],
+                  ),
+                  background: DecoratedBox(
+                    position: DecorationPosition.foreground,
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.center,
+                            colors: <Color>[kPurple, Colors.transparent])),
+                    child: Image(
+                      image: AssetImage(
+                        'assets/images/dessert.jpg',
+                      ),
+                      height: (h / 4) * r,
+                      fit: BoxFit.cover,
+                    ),
+                  ))),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                if (rpDessertdl.reLoading) {
+                  return ShimmerLoading(
+                      isLoading: rpDessertdl.reLoading,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                AspectRatio(
-                                  aspectRatio: 16 / 9,
-                                  child: Container(
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      color: Colors.black,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
+                                Container(
+                                  width: double.infinity,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
                                 const SizedBox(height: 16),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: double.infinity,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Container(
-                                      width: 250,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                    ),
-                                  ],
-                                )
+                                Container(
+                                  width: 250,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
                               ],
-                            ),
-                          ));
-                    } else {
-                      return Padding(
-                        padding:
-                        EdgeInsets.symmetric(horizontal: 15 * r, vertical: 5 * r),
-                        // child: Container(
-                        //   height: 200,
-                        //   width: 200,
-                        //   color: Colors.red,
-                        // ),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SingleDessert(
-                                        dessertItem: rpDessertdl.dessertListProvider[index])));
-                          },
-                          child: DessertCard(item: rpDessertdl.dessertListProvider[index]),
+                            )
+                          ],
                         ),
-                      );
-                    }
-                  },
-                  childCount: rpDessertdl.reLoading ? 2: rpDessertdl.dessertListProvider.length,
-                ),
-              ),
-            ]
-        ),
+                      ));
+                } else {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 15 * r, vertical: 5 * r),
+                    // child: Container(
+                    //   height: 200,
+                    //   width: 200,
+                    //   color: Colors.red,
+                    // ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SingleDessert(
+                                    dessertItem: rpDessertdl
+                                        .dessertListProvider[index])));
+                      },
+                      child: DessertCard(
+                          item: rpDessertdl.dessertListProvider[index]),
+                    ),
+                  );
+                }
+              },
+              childCount: rpDessertdl.reLoading
+                  ? 2
+                  : rpDessertdl.dessertListProvider.length,
+            ),
+          ),
+        ]),
       ),
     );
   }
 }
-

@@ -17,8 +17,8 @@ class _BakedItemListState extends State<BakedItemList> {
   @override
   void initState() {
     super.initState();
-    final rpMdl = Provider.of<BakedItemProvider>(context, listen: false);
-    rpMdl.loadAllMeal();
+    // final rpMdl = Provider.of<BakedItemProvider>(context, listen: false);
+    // rpMdl.loadAllMeal();
   }
 
   @override

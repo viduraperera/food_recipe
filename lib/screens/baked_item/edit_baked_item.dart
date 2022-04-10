@@ -17,7 +17,6 @@ class EditBakedItem extends StatefulWidget {
 class _EditBakedItemState extends State<EditBakedItem> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  // final TextEditingController commentController = TextEditingController();
   final TextEditingController restTimeController = TextEditingController();
   final TextEditingController restTemperatureController =
       TextEditingController();
@@ -46,8 +45,6 @@ class _EditBakedItemState extends State<EditBakedItem> {
       ingredients.add(ing);
     }
 
-    // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
-
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -57,7 +54,6 @@ class _EditBakedItemState extends State<EditBakedItem> {
                   controller: _ctrl,
                   key: Key(id.toString()),
                   onChanged: (String value) {
-                    // changeInputValue(value, id);
                     for (BakingIngredient i in ingredients) {
                       if (i.id == ing.id) {
                         i.name = value;
@@ -87,7 +83,7 @@ class _EditBakedItemState extends State<EditBakedItem> {
   Widget stepsField({label, id, initialVal}) {
     final _ctrl = TextEditingController();
     BakingStep stp;
-    // _ctrl.text = answersMap[id] != null ? answersMap[id].answer: "";
+
     if (initialVal != null) {
       _ctrl.text = initialVal;
       stp = BakingStep(id: id, step: initialVal);
@@ -105,7 +101,6 @@ class _EditBakedItemState extends State<EditBakedItem> {
                   controller: _ctrl,
                   key: Key(id.toString()),
                   onChanged: (String value) {
-                    // changeInputValue(value, id);
                     for (BakingStep i in recipeSteps) {
                       if (i.id == stp.id) {
                         i.step = value;
@@ -162,18 +157,22 @@ class _EditBakedItemState extends State<EditBakedItem> {
   @override
   Widget build(BuildContext context) {
     final rpMdl = Provider.of<BakedItemProvider>(context, listen: false);
-    // final addMdl = Provider.of<AddMealProvider>(context, listen: false);
     final updateMdl =
         Provider.of<UpdateBakeItemProvider>(context, listen: false);
     double r = UIManager.ratio;
+
+    validate(value, msg) {
+      if (value == null || value.isEmpty) {
+        return '$msg is Required';
+      }
+      return null;
+    }
 
     InputField titleField = InputField(
       hint: 'baked_item.name'.tr(),
       label: 'baked_item.name'.tr(),
       controller: titleController,
-      onChanged: (val) {
-        // print(val);
-      },
+      validator: (value) => validate(value, 'baked_item.name'.tr()),
     );
 
     InputField descriptionField = InputField(
@@ -182,30 +181,36 @@ class _EditBakedItemState extends State<EditBakedItem> {
         maxLength: null,
         type: TextInputType.multiline,
         controller: descriptionController,
+        validator: (value) => validate(value, 'baked_item.description'.tr()),
         isMulti: true);
 
     InputField restTemperatureField = InputField(
       hint: 'baked_item.restTemperature'.tr(),
       label: 'baked_item.restTemperature'.tr(),
       controller: restTemperatureController,
+      validator: (value) => validate(value, 'baked_item.restTemperature'.tr()),
     );
 
     InputField cookingTimeField = InputField(
       hint: 'baked_item.cookingTime'.tr(),
       label: 'baked_item.cookingTime'.tr(),
       controller: cookingTimeController,
+      validator: (value) => validate(value, 'baked_item.cookingTime'.tr()),
     );
 
     InputField cookingTemperatureField = InputField(
       hint: 'baked_item.cookingTemperature'.tr(),
       label: 'baked_item.cookingTemperature'.tr(),
       controller: cookingTemperatureController,
+      validator: (value) =>
+          validate(value, 'baked_item.cookingTemperature'.tr()),
     );
 
     InputField restTimeField = InputField(
       hint: 'baked_item.restTime'.tr(),
       label: 'baked_item.restTime'.tr(),
       controller: restTimeController,
+      validator: (value) => validate(value, 'baked_item.restTime'.tr()),
     );
 
     return Scaffold(
@@ -225,7 +230,6 @@ class _EditBakedItemState extends State<EditBakedItem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         titleField,
-                        // commentField,
                         descriptionField,
                         Padding(
                             padding: EdgeInsets.only(bottom: 25 * r),

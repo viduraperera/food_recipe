@@ -125,9 +125,17 @@ class _AddNewMealState extends State<AddNewMeal> {
     final addMdl = Provider.of<AddMealProvider>(context, listen: false);
     double r = UIManager.ratio;
 
+    validate(value, msg) {
+      if (value == null || value.isEmpty) {
+        return '$msg is Required';
+      }
+      return null;
+    }
+
     InputField titleField = InputField(
       hint: 'single_recipe.name'.tr(),
       controller: titleController,
+      validator: (value) => validate(value, 'single_recipe.name'.tr()),
       onChanged: (val) {
         print(val);
       },
@@ -137,6 +145,7 @@ class _AddNewMealState extends State<AddNewMeal> {
       hint: 'single_recipe.short_des'.tr(),
       // maxLength: 2,
       controller: commentController,
+      validator: (value) => validate(value, 'single_recipe.short_des'.tr()),
     );
 
     InputField detailField = InputField(
@@ -144,21 +153,25 @@ class _AddNewMealState extends State<AddNewMeal> {
         maxLength: null,
         type: TextInputType.multiline,
         controller: detailController,
+        validator: (value) => validate(value, 'single_recipe.description'.tr()),
         isMulti: true);
 
     InputField tempField = InputField(
       hint: 'single_recipe.temp'.tr(),
       controller: tempController,
+      validator: (value) => validate(value, 'single_recipe.temp'.tr()),
     );
 
     InputField prepTimeField = InputField(
       hint: 'single_recipe.prepare_time'.tr(),
       controller: prepTimeController,
+      validator: (value) => validate(value, 'single_recipe.prepare_time'.tr()),
     );
 
     InputField cookTimeField = InputField(
       hint: 'single_recipe.cooking_time'.tr(),
       controller: cookTimeController,
+      validator: (value) => validate(value, 'single_recipe.cooking_time'.tr()),
     );
 
     return Scaffold(

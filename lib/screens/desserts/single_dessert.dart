@@ -10,6 +10,8 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:food_recipe/models/dessert_item.dart';
 
+import 'package:food_recipe/screens/desserts/desserts_list.dart';
+
 
 class SingleDessert extends StatelessWidget {
   final Dessert dessertItem;
@@ -137,15 +139,40 @@ class SingleDessert extends StatelessWidget {
                                 IconButton(
                                   icon: const Icon(Icons.delete),
                                   tooltip: 'Delete',
-                                  onPressed: () {
-                                    rpDessertdl.deleteDessert(dessertItem.id);
+                                  onPressed: () async {
+                                    final snackBar = SnackBar(
+                                      content: const Text(
+                                          'Meal is being Deleted. Please wait..'),
+                                      action: SnackBarAction(
+                                        label: '',
+                                        onPressed: () {
+                                          // Some code to undo the change.
+                                        },
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(snackBar);
+                                    await rDessertdl.deleteDessert(dessertItem.id);
+                                    await rDessertdl.loadAllDesserts();
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    final deletedSnackBar = SnackBar(
+                                      content: const Text('Meal Deleted'),
+                                      action: SnackBarAction(
+                                        label: '',
+                                        onPressed: () {
+                                          // Some code to undo the change.
+                                        },
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(deletedSnackBar);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 DessertList()));
                                   },
-                                  //},
                                 ),
                               ],
                             ),

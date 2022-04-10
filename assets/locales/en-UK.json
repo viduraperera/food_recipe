@@ -47,6 +47,21 @@
     "steps":"How to make"
 
   },
+	"dessert_item": {
+		"add_to_fav": "Add to favorites",
+		"ingredients": "Ingredients",
+		"pre_time": "Preparation",
+		"cooking": "Cooking",
+		"description": "Description",
+		"steps": "How to make",
+		"temp": "Temperature",
+		"add": "Add",
+		"prepare_time": "Prepare time",
+		"cooking_time": "Cooking time",
+		"name": "Name",
+		"short_des": "Short description"
+
+	},
 	"search": {
 		"search": "Search"
 	},

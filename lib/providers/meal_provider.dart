@@ -65,7 +65,7 @@ class MealProvider with ChangeNotifier {
 
   deleteMeal(id) async {
     var collection = FirebaseFirestore.instance.collection('meal');
-    collection.doc(id).delete();
+    await collection.doc(id).delete();
 
     notifyListeners();
   }

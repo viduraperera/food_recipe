@@ -138,6 +138,7 @@ class SingleMealScreen extends StatelessWidget {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(snackBar);
                                               await rpMdl.deleteMeal(mealItem.id);
+                                              await rpMdl.loadAllMeal();
                                               ScaffoldMessenger.of(context)
                                                   .clearSnackBars();
                                               final deletedSnackBar = SnackBar(

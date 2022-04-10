@@ -183,39 +183,39 @@ class _UpdateDessertState extends State<UpdateDessert> {
     }
 
     InputField titleField = InputField(
-      hint: 'single_recipe.name'.tr(),
+      hint: 'dessert_item.name'.tr(),
       controller: titleControllerDessert,
-      validator: (value) => validate(value, 'single_recipe_dessert.name'.tr()),
+      validator: (value) => validate(value, 'dessert_item.name'.tr()),
     );
 
     InputField commentField = InputField(
-      hint: 'single_recipe.short_des'.tr(),
+      hint: 'dessert_item.short_des'.tr(),
       // maxLength: 2,
       controller: commentControllerDessert,
       validator: (value) =>
-          validate(value, 'single_recipe_dessert.short_des'.tr()),
+          validate(value, 'dessert_item.short_des'.tr()),
     );
 
     InputField detailField = InputField(
-        hint: 'single_recipe.description'.tr(),
+        hint: 'dessert_item.description'.tr(),
         maxLength: null,
         type: TextInputType.multiline,
         controller: detailControllerDessert,
         validator: (value) =>
-            validate(value, 'single_recipe_dessert.description'.tr()),
+            validate(value, 'dessert_item.description'.tr()),
         isMulti: true);
 
     InputField tempField = InputField(
-      hint: 'single_recipe.temp'.tr(),
+      hint: 'dessert_item.temp'.tr(),
       controller: tempControllerDessert,
-      validator: (value) => validate(value, 'single_recipe_dessert.temp'.tr()),
+      validator: (value) => validate(value, 'dessert_item.temp'.tr()),
     );
 
     InputField prepTimeField = InputField(
-      hint: 'single_recipe.prepare_time'.tr(),
+      hint: 'dessert_item.prepare_time'.tr(),
       controller: prepTimeControllerDessert,
       validator: (value) =>
-          validate(value, 'single_recipe_dessert.prepare_time'.tr()),
+          validate(value, 'dessert_item.prepare_time'.tr()),
     );
 
     return Scaffold(
@@ -260,7 +260,7 @@ class _UpdateDessertState extends State<UpdateDessert> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "single_recipe.ingredients".tr(),
+                                    "dessert_item.ingredients".tr(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18 * r),
@@ -304,7 +304,7 @@ class _UpdateDessertState extends State<UpdateDessert> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    "single_recipe.steps".tr(),
+                                    "dessert_item.steps".tr(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 18 * r),

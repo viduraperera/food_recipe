@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
 import 'package:food_recipe/screens/desserts/update_dessert_image.dart';
 import 'package:provider/provider.dart';
-import '../../global/app_colors.dart';
-import '../../models/dessert_item.dart';
-import '../../providers/dessert_provider.dart';
-import '../../providers/update_dessert_provider.dart';
+import 'package:food_recipe/global/app_colors.dart';
+import 'package:food_recipe/models/dessert_item.dart';
+import 'package:food_recipe/providers/dessert_provider.dart';
+import 'package:food_recipe/providers/update_dessert_provider.dart';
 
 class UpdateDessert extends StatefulWidget {
   final Dessert dessertItem;

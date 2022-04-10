@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
 import 'package:food_recipe/screens/meal/update_mael_image.dart';
 import 'package:provider/provider.dart';
-import '../../global/app_colors.dart';
 
 class EditMeal extends StatefulWidget {
   final Meal mealItem;

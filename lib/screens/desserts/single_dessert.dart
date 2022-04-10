@@ -4,11 +4,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_recipe/index.dart';
+import 'package:food_recipe/providers/dessert_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../models/dessert_item.dart';
-import '../../providers/dessert_provider.dart';
+import 'package:food_recipe/models/dessert_item.dart';
+
 
 class SingleDessert extends StatelessWidget {
   final Dessert dessertItem;

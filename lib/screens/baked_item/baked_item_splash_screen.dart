@@ -20,7 +20,7 @@ class _BakedSplashScreenState extends State<BakedSplashScreen> {
   navigate() async {
     //adding duration to the splash screen
     final rpMdl = Provider.of<BakedItemProvider>(context, listen: false);
-    await rpMdl.loadAllMeal();
+    await rpMdl.loadAllBakedItems();
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (BuildContext context) => BakedItemList()),
